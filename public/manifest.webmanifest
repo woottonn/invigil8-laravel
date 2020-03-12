@@ -1,0 +1,23 @@
+{"dir" : "ltr",
+    "lang" : "English",
+    "name" : "Scan-In",
+    "scope" : "/",
+    "display" : "standalone",
+    "start_url" : "/",
+    "short_name" : "Scan-In",
+    "theme_color" : "transparent",
+    "description" : "As easy to use app to record and monitor participation in activities",
+    "orientation" : "portrait",
+    "background_color" : "transparent",
+    "related_applications" : "",
+    "prefer_related_applications" : "false",
+    "generated" : "true",
+    "theme_color": "#16A085",
+    "background_color": "#16A085",
+    "icons" : [
+    {
+        "src": "img/icon.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }
+]}

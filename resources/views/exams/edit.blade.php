@@ -1,0 +1,17 @@
+@extends('layouts.app')
+@section('content')
+<div class="container">
+    @include('inc.titles')
+    <div class="mb-3">
+        <div class="card">
+            <div class="card-body">
+                <form action="{{ route('exams.update', [$exam]) }}" method="post">
+                    @method('PATCH')
+                    @include('exams.form')
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+

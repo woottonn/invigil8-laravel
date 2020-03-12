@@ -1,0 +1,23 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Custom
+@import 'custom';
+
+// Custom
+@import 'custom/timeline';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Select 2 dropdown
+@import '~select2/dist/css/select2.css';
+
+//Datatables
+@import '~datatables.net-bs4/css/dataTables.bootstrap4.css';
+
+//Timepicker
+@import '~jquery-timepicker/jquery.timepicker.css'
