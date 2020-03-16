@@ -48,8 +48,8 @@ foreach($exams as $exam){
             :exams="{{ json_encode($data) }}"
             :screenscol="$screens({ default: 1, md: 2, lg: 3, xl: 4 })"
             :screensrow="$screens({ default: 1, md: 2, lg: 2, xl: 3 })"
-            :theend="{{ json_encode(@$end) }}"
-            :thestart="{{ json_encode(@$start) }}"
+            :theend="@if(@$end) {{ json_encode($end) }} @endif"
+            :thestart="@if(@$start) {{ json_encode($start) }} @endif"
         >
         </vue-calendar>
     </div>
