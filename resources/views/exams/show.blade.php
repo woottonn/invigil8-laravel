@@ -52,7 +52,7 @@
                             foreach(range(1,$exam->invigilators_lead_req) as $index) {
                             ?>
                             @if(@!$lead_invigilators[$index-1])
-                                @if(@!$shown)
+                                @if(!@$shown)
                                     @can('EXAMS-assign')
                                         <form class="col-md-6 col-lg-4 col-xl-3" action="{{ route('participations.store') }}" method="post">
                                             <div class="form-group">
