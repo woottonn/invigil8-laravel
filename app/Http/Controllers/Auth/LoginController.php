@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Centre;
 use App\Http\Controllers\Controller;
 use App\Season;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,7 +58,16 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         session(['api_token' => $user->api_token]);
-        session(['season' => Season::where('active', 1)->first()]);
+
+        //Auto login to season
+        foreach(config('sitevars.seasons') as $key=>$season){
+            if(Carbon::now()->format('Y-m-d') >= $season['date_start']&&Carbon::now()->format('Y-m-d') <= $season['date_end']) {
+                $season_name = $key;
+            }
+        }
+        session(['season' => Season::where('name', $season_name)->first()]);
+        //End auto season
+
         session(['centres' => Centre::where('active', 1)->get()]);
         session(['centre' => Centre::findOrFail(auth()->user()->centre_id)]);
         session(['user' => $user]);

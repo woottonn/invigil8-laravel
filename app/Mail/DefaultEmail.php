@@ -35,7 +35,7 @@ class DefaultEmail extends Mailable
      */
     public function build()
     {
-        return $this->from('donotreply@streetlysolutions.co.uk')
+        return $this
             ->subject('A new exam has been added to the system')
             ->view('mails.default');
     }

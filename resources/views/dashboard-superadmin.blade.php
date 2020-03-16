@@ -1,39 +1,20 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-12 float-left">
-            <h1>
-                @if(!session('centre'))
-                    All Centres
-                @else
-                    {{session('centre')->name}}
-                @endif
-            </h1>
-            <p>Here is your administration dashboard.</p>
-        </div>
+    <div class="container">
+        @include('inc.titles')
+        <?php
+        $end = explode('-', config('sitevars.seasons')[session('season')->name]['date_end']);
+        $start = explode('-', config('sitevars.seasons')[session('season')->name]['date_start']);
+        ?>
+        <vue-calendar
+            :exams="{{ json_encode($data) }}"
+            :screenscol="$screens({ default: 1, md: 2, lg: 3, xl: 4 })"
+            :screensrow="$screens({ default: 1})"
+            :theend="{{ json_encode($end) }}"
+            :thestart="{{ json_encode($start) }}"
+        >
+        </vue-calendar>
+        @include('inc.timeline')
     </div>
-    @if(!$exams->isEmpty())
-        @include('inc.dashboard-data')
-        @include('inc.exams-table',
-                    ['tableheaders' => [
-                        'date' => true,
-                        'activity' => true,
-                        'lead' => true,
-                        'duration' => true,
-                        'attendees' => true,
-                        'data' => true,
-                        'actions' => true
-                        ],
-                    'headers' => [
-                        'title' => true,
-                        'subtitle' => 'A list of recent exams'
-                        ],
-                ])
-
-    @else
-        <div>There exams to report on yet</div>
-    @endif
-</div>
 @endsection
 

@@ -7,7 +7,7 @@
 
     <div class="form-group col-md-6 col-lg-4 col-xl-3">
         <label for="se">Location</label>
-        <select class="form-control @error('session_location_id') is-invalid @enderror" id="exam_location_id" name="exam_location_id">
+        <select class="form-control @error('exam_location_id') is-invalid @enderror" id="exam_location_id" name="exam_location_id">
             @if(!$locations->isEmpty())
                 @foreach($locations as $location)
                     <option value="{{ $location->id }}"
@@ -22,7 +22,7 @@
                 <option>No locations available</option>
             @endif
         </select>
-        <div class="text-danger">@if($errors->first('session_location_id')) Please choose a location @endif</div>
+        <div class="text-danger">@if($errors->first('exam_location_id')) Please choose a location @endif</div>
     </div>
 
     <div class="form-group col-md-6 col-lg-4 col-xl-3">
@@ -100,13 +100,37 @@
     </div>
 
 </div>
-<hr>
-    <button type="submit" class="btn btn-primary">Submit</button>
+
+<br>
+<div class="form-check mb-4 email-checkbox">
+    <input class="form-check-input" type="checkbox" value="1" id="email" name="email">
+    <label class="form-check-label" for="email">
+        @if(@$type=="Edit") Notify invigilators about these updates by email  @else Notify invigilators about this new exam by email @endif
+    </label>
+</div>
+
+<button type="submit" class="btn btn-primary">Submit</button>
 @csrf
+
 
 @push('scripting')
 <script>
-    $('#session_location_id').select2({
+
+    if($('#state').val() === '1'){
+        $('.email-checkbox').show();
+    }else{
+        $('.email-checkbox').hide();
+    }
+    $('#state').change(function(){
+        console.log($('#state').val() );
+        if($(this).val() === '1'){
+            $('.email-checkbox').show();
+        }else{
+            $('.email-checkbox').hide();
+        }
+    });
+
+    $('#exam_location_id').select2({
         placeholder: 'Select an option'
     });
     $('#duration').timepicker({

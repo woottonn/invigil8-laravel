@@ -57,7 +57,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'donotreply@streetlysolutions.co.uk'),
-        'name' => env('MAIL_FROM_NAME', 'Streetly Solutions'),
+        'name' => env('MAIL_FROM_NAME', 'Invigil8'),
     ],
 
     /*

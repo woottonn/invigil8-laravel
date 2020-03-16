@@ -1,5 +1,5 @@
 @if(!Request::is('login')&&!Request::is('cookie-policy')&&!Request::is('password/*')&&!Request::is('/'))
-    <?php if(@!session('season')->name){ Auth::logout(); return route('login'); } ?>
+    <?php if(@!session('season')->name){ dd(1); Auth::logout(); return route('login'); } ?>
 @endif
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -31,9 +31,10 @@
     @include('inc.nav')
 </div>
 <div id="bg-icon">
-    <img src="{{asset('img/logo.png')}}" style="opacity:0.2">
+    @guest <img src="{{asset('img/logo.png')}}" style="opacity:0.2"> @elseif(@session('centre')->img) <img src="/img/centres/{{session('centre')->img}}" class="centre_img"> @endguest
 </div>
 <div id="app">
+
     @include('inc.calendar')
     @can('NAV-view-admin')
         <div class="d-none d-sm-none d-md-none d-md-block d-lg-block d-xl-block" style="height:200px;"></div>

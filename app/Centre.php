@@ -18,6 +18,11 @@ class Centre extends Model
         return $this->hasMany(User::class);
     }
 
+    public function exams()
+    {
+        return $this->hasMany(Exam::class);
+    }
+
     public function locations()
     {
         return $this->hasMany(Location::class);

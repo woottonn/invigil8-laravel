@@ -2,11 +2,13 @@
 
 
 if (!function_exists('addToTimeline')) {
-    function addToTimeline($user_id, $author_id, $exam_id, $message){
+    function addToTimeline($user_id, $author_id, $exam_id, $centre_id, $season_id, $message){
         $timeline = new \App\Timeline();
         $timeline->user_id = $user_id;
         $timeline->author_id = $author_id;
         $timeline->exam_id = $exam_id;
+        $timeline->season_id = $season_id;
+        $timeline->centre_id = $centre_id;
         $timeline->message = $message;
         $timeline->save();
     }

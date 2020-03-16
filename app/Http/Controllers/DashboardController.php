@@ -46,6 +46,7 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
+        //Auth::logout();
         if (@$request->user) {
             $user = User::findOrFail($request->user);
         } else {
@@ -55,44 +56,65 @@ class DashboardController extends Controller
         if((auth()->user()->hasRole('Super Admin')||auth()->user()->centre_id==$user->centre_id)||($user->id==auth()->user()->id)){
 
             $exams = \App\Exam::orderBy('date','DESC')
+                ->join('participations','exams.id','=','participations.exam_id')
+                ->where('participations.user_id', $user->id)
                 ->when(session('season')->id, function ($query) {
                     return $query->where('exams.season_id', session('season')->id);
                 })
                 ->when(session('centre')->id, function ($query) {
                     return $query->where('exams.centre_id',  session('centre')->id);
                 })
-                ->get();
+                ->get('exams.*');
 
             $data = [];
             foreach($exams as $exam){
-                if(Participation::where('exam_id', $exam->id)->where('user_id', auth()->user()->id)->exists()){
+                if(Participation::where('exam_id', $exam->id)->where('user_id', $user->id)->exists()){
                     $highlight = 'orange';
                     $registered =  ' (Registered)';
                 }else{
                     $highlight = 'blue';
                     $registered =  '';
                 }
-                $new_exam =
-                    array(
-                        'customData' => array(
-                            'id' => $exam->id
-                        ),
-                        'bar'=> $highlight,
-                        'popover'=> array(
-                            'label' => $exam->description . ' - ' . $exam->pretty_time . ' - ' . $exam->pretty_duration . ' - ' . $exam->location->name . @$registered,
-                        ),
-                        'dates' => $exam->date,
+                if(auth()->user()->id!==$user->id&&$registered!==""||auth()->user()->id==$user->id) {
+                    $new_exam =
+                        array(
+                            'customData' => array(
+                                'id' => $exam->id
+                            ),
+                            'bar' => $highlight,
+                            'popover' => array(
+                                'label' => $exam->description . ' - ' . $exam->pretty_time . ' - ' . $exam->pretty_duration . ' - ' . $exam->location->name . @$registered,
+                            ),
+                            'dates' => $exam->date,
 
-                    );
-                array_push($data, $new_exam);
+                        );
+                    array_push($data, $new_exam);
+                }
             }
 
-        $timelines = Timeline::orderBy('id', 'DESC')->where('user_id', 0)->orWhere('user_id', auth()->user()->id)->get();
+        if(auth()->user()->hasRole('Super Admin')){
+        $timelines = Timeline::orderBy('id', 'DESC')
+            ->where(function ($query) {
+                return $query
+                    ->where('user_id', 0)
+                    ->orWhere('user_id', auth()->user()->id);
+            })
+            ->when(session('season')->id, function ($query) {
+                return $query->where('season_id', session('season')->id);
+            })
+            ->when(session('centre')->id, function ($query) {
+                return $query->where('centre_id', session('centre')->id);
+            })
+            ->get();
+         }else{
+            $timelines = "";
+        }
 
-        $title = "Dashboard - Invigilator";
+        $title = $user->firstname . "'s Dashboard";
         $subtitle = "Data overview.";
         $include_icon_create = 1;
-        return view('dashboard', compact('include_icon_create', 'user', 'title', 'subtitle', 'data', 'timelines'));
+
+        return view('dashboard', compact('include_icon_create', 'user', 'title', 'subtitle', 'data', 'timelines', 'exams'));
 
     }else{abort('403');}}
 
@@ -109,6 +131,7 @@ class DashboardController extends Controller
             ->get();
 
         $data = [];
+
         foreach($exams as $exam){
             $new_exam =
                 array(
@@ -129,7 +152,14 @@ class DashboardController extends Controller
             array_push($data, $new_exam);
         }
 
-        $timelines = Timeline::orderBy('id', 'DESC')->get();
+        $timelines = Timeline::orderBy('id', 'DESC')
+            ->when(session('season')->id, function ($query) {
+                return $query->where('season_id', session('season')->id);
+            })
+            ->when(session('centre')->id, function ($query) {
+                return $query->where('centre_id',  session('centre')->id);
+            })
+            ->get();
 
         $title = "Dashboard - Centre Admin";
         $subtitle = "Overview of your exams and users.";
@@ -141,48 +171,52 @@ class DashboardController extends Controller
     public function superadmin_index(Request $request)
     {
 
-        if(session('centre')->id){ $centre_count = 1; }else{  $centre_count = Centre::where('active', 1)->count(); }
-
-        $participations_count = Participation::
-            join('exams','exams.id','=','participations.exam_id')
-            ->when($this->sID, function ($query){
-                return $query->where('season_id', $this->sID);
+        $exams = \App\Exam::orderBy('date','DESC')
+            ->when(session('season')->id, function ($query) {
+                return $query->where('exams.season_id', session('season')->id);
             })
-            ->when($this->cID, function ($query){
-                return $query->where('centre_id', $this->cID);
-            })
-            ->count();
-
-        $exams = Exam::orderBy('date')
-            ->when($this->sID, function ($query){
-                return $query->where('season_id', $this->sID);
-            })
-            ->when($this->cID, function ($query){
-                return $query->where('centre_id', $this->cID);
+            ->when(session('centre')->id, function ($query) {
+                return $query->where('exams.centre_id',  session('centre')->id);
             })
             ->get();
-        $exams_count = $exams->count();
 
-        $users_count = User::
-            when($this->cID, function ($query){
-                return $query->where('centre_id', $this->cID);
-            })
-            ->count();
+        $data = [];
 
-        $total_time = Exam::
-            selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC( `duration` ))) AS duration')
-            ->when($this->sID, function ($query){
-                return $query->where('season_id', $this->sID);
+        foreach($exams as $exam){
+            $new_exam =
+                array(
+                    'customData' => array(
+                        'id' => $exam->id
+                    ),
+                    'highlight'=> array(
+                        'backgroundColor' => "#000"
+                    ),
+                    'popover'=> array(
+                        'label' => $exam->description . ' - ' . $exam->pretty_time . ' - ' . $exam->pretty_duration . ' - ' . $exam->location->name,
+                    ),
+                    'dates'=> array(
+                        'start' => $exam->date,
+                        'end' => $exam->date,
+                    ),
+                );
+            array_push($data, $new_exam);
+        }
+
+        $timelines = Timeline::orderBy('id', 'DESC')
+            ->when(session('season')->id, function ($query) {
+                return $query->where('season_id', session('season')->id);
             })
-            ->when($this->cID, function ($query){
-                return $query->where('centre_id', $this->cID);
+            ->when(session('centre')->id, function ($query) {
+                return $query->where('centre_id',  session('centre')->id);
             })
             ->get();
-        $total_time = dashboardTotalDuration($total_time);
+
+        $title = "Dashboard - Super Admin";
+        $subtitle = "Overview of exams and users.";
 
         $include_icon_create = 1;
 
-        return view('dashboard-superadmin', compact('exams_count', 'centre_count', 'exams', 'users_count',  'include_icon_create', 'participations_count', 'total_time'));
+        return view('dashboard-superadmin', compact('title', 'exams', 'subtitle', 'timelines', 'data', 'include_icon_create'));
     }
 
 }

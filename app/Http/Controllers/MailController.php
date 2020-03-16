@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
 {
-    public function exam_add_view(Request $request)
+    public function update(Request $request)
     {
-        return view('mails.default');
+        return view('mails.defaultexamupdate');
     }
 }

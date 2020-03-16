@@ -11,6 +11,7 @@ use App\Charts\ChartsActivityTypes\PieParticipations;
 use App\Charts\ChartsActivityTypes\PieSessions;
 use App\Mail\DefaultEmail;
 use App\Mail\DefaultEmailExamDelete;
+use App\Mail\DefaultEmailExamUpdate;
 use App\Participation;
 use App\Exam;
 use App\Http\Controllers\Controller;
@@ -56,11 +57,6 @@ class ExamsController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->date){
-            $date = $request->date;
-        }else{
-            $date = false;
-        }
 
         if(auth()->user()->cannot('EXAMS-edit')) { $state = 1; }
         if($request->user_id){
@@ -71,9 +67,6 @@ class ExamsController extends Controller
                 })
                 ->when($this->cID, function ($query) {
                     return $query->where('exams.centre_id', $this->cID);
-                })
-                ->when($request->date, function ($query) use ($request) {
-                    return $query->whereRaw('DATE(exams.date) = ?', [$request->date]);
                 })
                 ->when(@$state, function ($query)  {
                     return $query->where('state', 1);
@@ -89,9 +82,6 @@ class ExamsController extends Controller
                 ->when($this->cID, function ($query) {
                     return $query->where('exams.centre_id', $this->cID);
                 })
-                ->when($request->date, function ($query) use ($request){
-                    return $query->whereRaw('DATE(exams.date) = ?', [$request->date]);
-                })
                 ->when(@$state, function ($query)  {
                     return $query->where('state', 1);
                 })
@@ -103,7 +93,7 @@ class ExamsController extends Controller
 
         $title = "Exams";
 
-        return view('exams.index', compact('exams', 'date', 'include_icon_create', 'title', 'subtitle'));
+        return view('exams.index', compact('exams', 'include_icon_create', 'title', 'subtitle'));
     }
 
     public function today(Request $request)
@@ -155,6 +145,32 @@ class ExamsController extends Controller
         return view('exams.create', compact('exam', 'locations', 'centres', 'title', 'subtitle'));
     }
 
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function bulk()
+    {
+        if (!session('season')->id || !session('centre')->id) {
+            return redirect()->route('exams.index')->with('error', 'You must select a season & centre before creating an exam');
+        }
+
+        $exam = New Exam();
+        $exam->duration = "00:00";
+        $locations = Location::orderBy('name')->where('centre_id', session('centre')->id)->get();
+        $centres = Centre::orderBy('name')->get();
+        $exam->centre_id = session('centre')->id;
+        $exam->duration = '01:00';
+
+        $title = "Bulk creation of exams";
+        $subtitle = "Enter multiple exams on this page and bulk submit";
+
+        return view('exams.bulk', compact('exam', 'locations', 'centres', 'title', 'subtitle'));
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -170,14 +186,14 @@ class ExamsController extends Controller
         $this->validate(request(),[
             'description' => 'required|min:1',
             'date' => 'required|date',
-            'exam_location_id' => 'required|numeric',
+            'exam_location_id' => 'required|integer|min:0',
             'duration' => 'required|date_format:H:i',
-            'invigilators_lead_req' => 'sometimes|numeric',
-            'invigilators_req' => 'sometimes|numeric',
-            'students' => 'sometimes|numeric',
-            'hide_names' => 'required|numeric',
-            'centre_id' => 'required|numeric',
-            'state' => 'required|numeric',
+            'invigilators_lead_req' => 'sometimes|integer|min:0',
+            'invigilators_req' => 'sometimes|integer|min:0',
+            'students' => 'sometimes|integer|min:0',
+            'hide_names' => 'required|integer|min:0',
+            'centre_id' => 'required|integer|min:0',
+            'state' => 'required|integer|min:0',
             'notes' => 'sometimes'
         ],[
             'date.required' => 'Please enter a date',
@@ -203,11 +219,11 @@ class ExamsController extends Controller
         $exam->save();
 
         if($request->state==1){
-            addToTimeline(0, $exam->author_id, $exam->id,
+            addToTimeline(0, $exam->author_id, $exam->id,session('centre')->id, session('season')->id,
                 User::find($exam->author_id)->full_name." created a new exam: <a href='".url('/') . "/exams/" . $exam->id . "'>" . $exam->description . "</a>");
         }
 
-        if($request->state==1){
+        if($request->email==1){
             foreach (User::role('Invigilator')->where('lastname', 'Wootton')->where('centre_id', session('centre')->id)->get() as $user){
                 $mail = new \stdClass();
                 $mail->firstname = $user->firstname;
@@ -225,6 +241,83 @@ class ExamsController extends Controller
 
         return redirect()->route('exams.show', $exam)->with('success', 'Exam created successfully');
     }
+
+
+
+
+
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storebulk(Request $request)
+    {
+        $request['centre_id'] = session('centre')->id;
+
+            $this->validate(request(), [
+                'description.*' => 'required|min:1',
+                'date.*' => 'required|date',
+                'exam_location_id.*' => 'required|integer|min:1',
+                'duration.*' => 'required|date_format:H:i',
+                'invigilators_lead_req.*' => 'sometimes|integer|min:0',
+                'invigilators_req.*' => 'sometimes|integer|min:0',
+                'students.*' => 'sometimes|integer|min:0',
+                'hide_names.*' => 'required|integer|min:0',
+                'state.*' => 'required|integer',
+                'notes.*' => 'sometimes'
+            ]);
+
+        foreach(range(1,$request->total) as $i){
+
+            //if(!@$request->email[$i]){ $email[$i] = '0';}
+
+            $exam = new Exam;
+            $exam->description = $request->description[$i];
+            $exam->date = date('Y-m-d H:i:s', strtotime($request->date[$i]));
+            $exam->duration = date('H:i:s', strtotime($request->duration[$i]));
+            $exam->author_id = auth()->user()->id;
+            $exam->season_id = session('season')->id;
+            $exam->location_id = $request->exam_location_id[$i];
+            $exam->invigilators_lead_req = $request->invigilators_lead_req[$i];
+            $exam->invigilators_req = $request->invigilators_req[$i];
+            $exam->hide_names = $request->hide_names[$i];
+            $exam->notes = $request->notes[$i];
+            $exam->students = $request->students[$i];
+            $exam->state = $request->state[$i];
+            $exam->centre_id = $request->centre_id;
+            $exam->save();
+
+            if ($request->state[$i] == 1) {
+                addToTimeline(0, $exam->author_id, $exam->id,session('centre')->id, session('season')->id,
+                    User::find($exam->author_id)->full_name . " created a new exam: <a href='" . url('/') . "/exams/" . $exam->id . "'>" . $exam->description . "</a>");
+            }
+
+            if (@$request->email[$i] == 1) {
+                foreach (User::role('Invigilator')->where('lastname', 'Wootton')->where('centre_id', session('centre')->id)->get() as $user) {
+                    $mail = new \stdClass();
+                    $mail->firstname = $user->firstname;
+                    $mail->name = $exam->description;
+                    $mail->id = $exam->id;
+                    $mail->date = $exam->pretty_date;
+                    $mail->duration = $exam->pretty_duration;
+                    $mail->location = $exam->location->name;
+                    $mail->centre_name = Centre::find($exam->centre_id)->name;
+                    $mail->lead = $exam->invigilators_lead_req;
+                    $mail->extra = $exam->invigilators_req;
+                    Mail::to($user->email)->send(new DefaultEmail($mail));
+                }
+            }
+        }
+
+        return redirect()->route('exams.index')->with('success', $request->total. ' exams created successfully');
+    }
+
+
+
 
     /**
      * Display the specified resource.
@@ -277,7 +370,8 @@ class ExamsController extends Controller
 
         $title = $exam->description . " - Edit";
         $subtitle = "Edit this exam.";
-        return view('exams.edit', compact('exam', 'locations', 'centres', 'include_icon_camera', 'title', 'subtitle'));
+        $type = "Edit";
+        return view('exams.edit', compact('exam', 'locations', 'centres', 'include_icon_camera', 'title', 'subtitle', 'type'));
 
     }else{abort('403');}}
 
@@ -299,14 +393,14 @@ class ExamsController extends Controller
         $this->validate(request(),[
             'description' => 'required|min:1',
             'date' => 'required|date',
-            'exam_location_id' => 'required|numeric',
+            'exam_location_id' => 'required|integer|min:0',
             'duration' => 'required|date_format:H:i',
-            'invigilators_lead_req' => 'sometimes|numeric',
-            'invigilators_req' => 'sometimes|numeric',
-            'hide_names' => 'required|numeric',
-            'centre_id' => 'required|numeric',
-            'state' => 'required|numeric',
-            'students' => 'sometimes|numeric',
+            'invigilators_lead_req' => 'sometimes|integer|min:0',
+            'invigilators_req' => 'sometimes|integer|min:0',
+            'hide_names' => 'required|integer|min:0',
+            'centre_id' => 'sometimes|integer|min:0',
+            'state' => 'numeric',
+            'students' => 'sometimes|integer|min:0',
             'notes' => 'sometimes'
         ],[
             'date.required' => 'Please enter a date',
@@ -347,8 +441,25 @@ class ExamsController extends Controller
             //End changes
 
             if (@$changes !== "") {
-                addToTimeline(0, $exam->author_id, $exam->id,
+                addToTimeline(0, $exam->author_id, $exam->id,session('centre')->id, session('season')->id,
                     User::find($exam->author_id)->full_name . " edited some details on the following exam: <a href='" . url('/') . "/exams/" . $exam->id . "'>" . $exam->description . "</a>" . $changes);
+            }
+        }
+
+        if($request->email==1){
+            foreach (User::role('Invigilator')->where('lastname', 'Wootton')->where('centre_id', session('centre')->id)->get() as $user){
+                $mail = new \stdClass();
+                $mail->firstname = $user->firstname;
+                $mail->name = $exam->description;
+                $mail->id = $exam->id;
+                $mail->date = $exam->pretty_date;
+                $mail->duration = $exam->pretty_duration;
+                $mail->location = $exam->location->name;
+                $mail->centre_name = Centre::find($exam->centre_id)->name;
+                $mail->lead = $exam->invigilators_lead_req;
+                $mail->extra = $exam->invigilators_req;
+                $mail->changes = $changes;
+                Mail::to($user->email)->send(new DefaultEmailExamUpdate($mail));
             }
         }
 
@@ -387,7 +498,7 @@ class ExamsController extends Controller
         // Remove referencse from timeline
         Timeline::where('exam_id', $exam->id)->delete();
         // Add to timeline
-        addToTimeline(0, $exam->author_id, $exam->id,
+        addToTimeline(0, $exam->author_id, $exam->id, session('centre')->id, session('season')->id,
             User::find($exam->author_id)->full_name." deleted the following exam: <strong>" . $exam->description . "</strong>");
 
         foreach (Participation::where('exam_id', $exam->id)->get() as $participation){

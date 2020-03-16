@@ -17,7 +17,7 @@ return [
 
     'seasons' => [
         'All Seasons' => [
-            'name' => '2019/2020',
+            'name' => 'All',
             'date_start' => '2019-09-01',
             'date_end' => '2099-08-31'
         ],

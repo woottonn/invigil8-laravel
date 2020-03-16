@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-custom p-1 p-md-3">
 
-    <a class="navbar-brand" href="{{ route('login') }}"><img src="/img/logo.png" class="logo" alt="{{env("APP_NAME")}}" title="{{env("APP_NAME")}}">
+    <a class="navbar-brand" href="{{ route('login') }}">
+        <img src="/img/logo.png" class="logo" alt="{{env("APP_NAME")}}" title="{{env("APP_NAME")}}">
         <div class="date d-xs-inline-block d-sm-inline-block d-md-none d-md-none d-lg-none d-xl-none">{{ date('l jS F Y') }}</div>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +42,7 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('exams.index') }}">View</a>
                             <a class="dropdown-item" href="{{ route('exams.create') }}">Create</a>
+                            <a class="dropdown-item" href="{{ route('exams.bulk') }}">Bulk Creation</a>
                         </div>
                     </li>
             @endcan

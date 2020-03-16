@@ -16,7 +16,7 @@ class PagesController extends Controller
 
         if(Auth::check()){
             if(Auth::user()->hasRole('Super Admin')){
-                return redirect()->route('dashboard-superadmin', ['centre_id' => auth()->user()->centre_id]) ;
+                return redirect()->route('superadmin.dashboard', ['centre_id' => auth()->user()->centre_id]) ;
             }elseif(Auth::user()->hasRole('Centre Admin')){
                 return redirect()->route('centreadmin.dashboard') ;
             }elseif(Auth::user()->hasRole('Invigilator')) {

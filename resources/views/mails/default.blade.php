@@ -125,7 +125,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="font-size: 0;background: #000d35;" align="center">
+                        <td style="font-size: 0;background: #000d35;padding-top: 10px;" align="center">
                             <a href="{{ route('home') }}" target="_blank" conversion="true" alias="">
                                 <img src="{{ asset('img/logo.png') }}" style=" display: block; max-width: 100px; width: 100px;margin:0 auto;" border="0">
                             </a>
@@ -154,7 +154,7 @@
                         <td style="min-width: 600px"></td>
                     </tr>
                     <tr>
-                        <td style="font-size: 20px;background: #f2f2f2; padding: 0px 0px 0px 0px;color:#555;font-weight:bold;padding-top:40px;" align="center">
+                        <td style="font-size: 18px;background: #f2f2f2; padding: 0px 0px 0px 0px;color:#555;font-weight:bold;padding: 10px;padding-top: 40px;padding-left: 50px;padding-right: 50px;" align="center">
                             Hello {{ @$demo->firstname }}, a new exam has been added to the system...
                         </td>
                     </tr>
@@ -162,19 +162,18 @@
                     <tr>
 
                         <td style="font-size: 0;background: #f2f2f2; width: 552px; padding:24px 24px 32px;" align="center">
-                            <p style="line-height:28px;font-family: Arial Regular, sans-serif; font-size: 16px; letter-spacing:0.8px; color: #555;">
+                            <p style="margin-bottom: 20px;line-height:28px;font-family: Arial Regular, sans-serif; font-size: 14px; letter-spacing:0.8px; color: #555;">
                                 <span style="color: #555;">A new exam has been added to the system:</span>
                                 <br>
                                 <b><a href="{{ route('exams.show', [@$demo->id]) }}" style="color:darkblue">{{ @$demo->name }}</a></b>
-                                <br>
                             </p>
-                            <p style="line-height:28px;font-family: Arial Regular, sans-serif; font-size: 16px; letter-spacing:0.8px; color: #555;">
-                            <ul style="font-size: 16px;text-align: left;color: #555;line-height: 1.5;letter-spacing:0.8px;" align="left">
-                                <li>Date/Time: <b>{{ @$demo->date }}</b></li>
-                                <li>Duration: <b>{{ @$demo->duration }}</b></li>
-                                <li>Location: <b>{{ @$demo->location}}, {{ @$demo->centre_name }}</b></li>
-                                <li>Lead invigilators required: <b>{{ @$demo->lead }}</b></li>
-                                <li>Extra invigilators required: <b>{{ @$demo->extra }}</b></li>
+                            <p style="line-height:28px;font-family: Arial Regular, sans-serif; font-size: 14px; letter-spacing:0.8px; color: #555;">
+                            <ul style="font-size: 14px;text-align: left;color: #555;line-height: 1.5;letter-spacing:0.8px;" align="left">
+                                <li style="color: #555;">Date/Time: <b>{{ @$demo->date }}</b></li>
+                                <li style="color: #555;">Duration: <b>{{ @$demo->duration }}</b></li>
+                                <li style="color: #555;">Location: <b>{{ @$demo->location}}, {{ @$demo->centre_name }}</b></li>
+                                <li style="color: #555;">Lead invigilators required: <b>{{ @$demo->lead }}</b></li>
+                                <li style="color: #555;">Extra invigilators required: <b>{{ @$demo->extra }}</b></li>
                             </ul>
                             </p>
                         </td>

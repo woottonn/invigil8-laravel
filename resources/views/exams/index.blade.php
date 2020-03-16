@@ -6,6 +6,7 @@
         @include('inc.exams-table',
             ['tableheaders' => [
                 'date' => true,
+                'state' => true,
                 'location' => true,
                 'invigilators_lead_req' => true,
                 'invigilators_req' => true,
@@ -17,12 +18,16 @@
              ],
             'headers' => [
                 'title' => true,
-                'subtitle' => 'A list of exams'
+                'subtitle' => 'A list of exams',
+                'create' => true
             ],
             'filter' => [
                 'location' => true,
                 'notes' => true,
              ],
-                ])
+             'config' => [
+                 'date_range' => true,
+            ]
+        ])
     </div>
 @endsection

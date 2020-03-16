@@ -1,22 +1,22 @@
 {"dir" : "ltr",
     "lang" : "English",
-    "name" : "Scan-In",
+    "name" : "Invigil8",
     "scope" : "/",
     "display" : "standalone",
     "start_url" : "/",
-    "short_name" : "Scan-In",
+    "short_name" : "I8",
     "theme_color" : "transparent",
-    "description" : "As easy to use app to record and monitor participation in activities",
+    "description" : "Manage exams as an exams officer, apply for exams as an invigilator.",
     "orientation" : "portrait",
     "background_color" : "transparent",
     "related_applications" : "",
     "prefer_related_applications" : "false",
     "generated" : "true",
-    "theme_color": "#16A085",
-    "background_color": "#16A085",
+    "theme_color": "#00123c",
+    "background_color": "#00123c",
     "icons" : [
     {
-        "src": "img/icon.png",
+        "src": "img/mobile.png",
         "sizes": "512x512",
         "type": "image/png"
     }

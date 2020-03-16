@@ -21,6 +21,8 @@
                      :rows="this.screensrow"
                      :is-expanded="$screens({ default: true, lg: false })"
                      :attributes='exams'
+                     :max-date="new Date(this.theend[0],this.theend[1]-1,this.theend[2])"
+                     :min-date="new Date(this.thestart[0],this.thestart[1]-1,this.thestart[2])"
                      @dayclick='dayClicked'
                      style="width:100%"
         ></v-calendar>
@@ -33,7 +35,6 @@
     export default {
 
         mounted() {
-
         },
 
         data() {
@@ -49,14 +50,26 @@
             screenscol: {},
             screensrow: {},
             daybox: {},
+            theend: {
+                type: Array,
+                required: false
+            },
+            thestart: {
+                type: Array,
+                required: false
+            },
         },
         methods: {
             dayClicked(day) {
                 if(this.daybox===true) {
-                    this.selectedDay = day;
-                    $('.vc-container').css('opacity', '0.2');
+                    if(day.popovers){
+                        this.selectedDay = day;
+                        $('.vc-container').css('opacity', '0.2');
+                    }
                 }else{
-                    window.location.href = '/exams/?date=' + encodeURI(day.date.toISOString().slice(0, 19).replace('T', ' ').slice(0,-9));
+                    if(day.popovers) {
+                        window.location.href = '/exams/?date=' + encodeURI(day.date.toISOString().slice(0, 19).replace('T', ' ').slice(0, -9));
+                    }
                 }
             },
             dayClose(day) {

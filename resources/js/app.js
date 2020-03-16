@@ -23,6 +23,7 @@ import 'datatables.net-buttons/js/buttons.html5.min';
 window.JSZip = jsZip;
 
 window.Vue = require('vue');
+window.moment = require('moment');
 
 import Vue from 'vue'
 import VCalendar from 'v-calendar';
@@ -118,6 +119,20 @@ $( document ).ready(function() {$('[data-toggle="tooltip"]').tooltip(); });
         }
     }
 });*/
+
+window.addEventListener('scroll',function() {
+    //When scroll change, you save it on localStorage.
+    localStorage.setItem('scrollPosition',window.scrollY);
+},false);
+
+
+window.addEventListener('load',function() {
+    if(localStorage.getItem('scrollPosition') !== null)
+        window.scrollTo(0, localStorage.getItem('scrollPosition'));
+},false);
+
+
+
 
 $(document).ready(function(){
     $('.toast').show(500, function(){

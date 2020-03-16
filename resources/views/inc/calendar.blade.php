@@ -13,6 +13,7 @@ $exams = \App\Exam::orderBy('date','DESC')
 
 $data = [];
 foreach($exams as $exam){
+    $date = substr($exam->date, 0, -9);
     if(App\Participation::where('exam_id', $exam->id)->where('user_id', auth()->user()->id)->exists()){
         $highlight = 'orange';
         $registered =  ' (Registered)';
@@ -23,7 +24,8 @@ foreach($exams as $exam){
     $new_exam =
         array(
             'customData' => array(
-                'id' => $exam->id
+                'id' => $exam->id,
+                'date' => $date
             ),
             'bar'=> $highlight,
             'popover'=> array(
@@ -33,6 +35,9 @@ foreach($exams as $exam){
 
         );
     array_push($data, $new_exam);
+
+    $end = explode('-', config('sitevars.seasons')[session('season')->name]['date_end']);
+    $start = explode('-', config('sitevars.seasons')[session('season')->name]['date_start']);
 }
 
 ?>
@@ -43,7 +48,8 @@ foreach($exams as $exam){
             :exams="{{ json_encode($data) }}"
             :screenscol="$screens({ default: 1, md: 2, lg: 3, xl: 4 })"
             :screensrow="$screens({ default: 1, md: 2, lg: 2, xl: 3 })"
-            :daybox="true"
+            :theend="{{ json_encode($end) }}"
+            :thestart="{{ json_encode($start) }}"
         >
         </vue-calendar>
     </div>

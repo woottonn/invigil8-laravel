@@ -22,8 +22,8 @@ Route::get('/exams/today', 'ExamsController@today')->name('exams.today');
 
 //Dashboards
 Route::get('admin/dashboard', 'DashboardController@admin_index')->name('admin.dashboard')->middleware('role:Super Admin|Centre Admin');
-Route::get('superadmin/dashboard', 'DashboardController@superadmin_index')->name('superadmin.dashboard')->middleware('role:Super Admin');
-Route::get('centre-admin/dashboard', 'DashboardController@centreadmin_index')->name('centreadmin.dashboard')->middleware('role:Centre Admin');
+Route::get('super-admin/dashboard', 'DashboardController@superadmin_index')->name('superadmin.dashboard')->middleware('role:Super Admin');
+Route::get('centre-admin/dashboard', 'DashboardController@centreadmin_index')->name('centreadmin.dashboard')->middleware('role:Super Admin|Centre Admin');
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard')->middleware('role:Super Admin|Invigilator|Centre Admin');
 
 //Site-wide session changes
@@ -42,8 +42,12 @@ Route::resource('locations', 'LocationsController')->middleware('permission:LOCA
 Route::resource('exams', 'ExamsController')->middleware('permission:EXAMS-view');
 Route::resource('participations', 'ParticipationsController')->middleware('permission:EXAMS-signup|EXAMS-assign');
 
+//Exams
+Route::get('/exams/create/bulk', 'ExamsController@bulk')->name('exams.bulk')->middleware('role:Super Admin|Centre Admin');
+Route::post('/exams/create/bulk/store', 'ExamsController@storebulk')->name('exams.storebulk')->middleware('role:Super Admin|Centre Admin');
+
 //Mail
-Route::get('mail/exam-added/view', 'MailController@exam_add_view');
+Route::get('mail/exam-updated/view', 'MailController@update');
 Route::get('mail/exam-added', 'MailController@exam_add');
 
 //Auth

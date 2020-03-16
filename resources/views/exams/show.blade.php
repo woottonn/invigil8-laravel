@@ -57,7 +57,7 @@
                                         <form class="col-md-6 col-lg-4 col-xl-3" action="{{ route('participations.store') }}" method="post">
                                             <div class="form-group">
                                                 <label for="user_id">Lead Invigilator {{$index}}</label>
-                                                <select class="form-control @error('session_location_id') is-invalid @enderror" name="user_id" id="invigilators_lead_req_{{$index}}" style="width:100%">
+                                                <select class="form-control" name="user_id" id="invigilators_lead_req_{{$index}}" style="width:100%">
                                                     @if(!$users->isEmpty())
                                                         <option>Select a lead invigilator</option>
                                                         @foreach($users as $user)
@@ -121,12 +121,14 @@
                                             @endif
 
                                             @if($exam->hide_names==1&&auth()->user()->id!==$lead_invigilators[$index-1]->user_id&&auth()->user()->cannot('EXAMS-edit'))
-                                                Anonymous
+                                                Anonymous</span>
                                             @else
-                                                {{App\User::find($lead_invigilators[$index-1]->user_id)->full_name}}
+                                                {{App\User::find($lead_invigilators[$index-1]->user_id)->full_name}}</span>
+                                            <a href="{{ route('users.show', [$lead_invigilators[$index-1]->user_id]) }}" class="text-white">
+                                                <i class="fas fa-info-circle text-white" style="cursor:pointer" title="View {{App\User::find($lead_invigilators[$index-1]->user_id)->firstname}}'s dashboard" data-toggle="tooltip" data-placement="bottom" rel="tooltip"></i>
+                                            </a>
                                             @endif
 
-                                        </span>
 
                                         <form action="{{ route('participations.destroy', [$lead_invigilators[$index-1]]) }}" method="POST" class="no-form-style d-none" id="delete-participation-form-{{ $lead_invigilators[$index-1]->user_id }}">
                                             @METHOD('DELETE')
