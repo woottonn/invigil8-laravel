@@ -68,7 +68,7 @@
                     }
                 }else{
                     if(day.popovers) {
-                        window.location.href = '/exams/?date=' + encodeURI(day.date.toISOString().slice(0, 19).replace('T', ' ').slice(0, -9));
+                        window.location.href = '/exams/?date=' + encodeURI(day.id);
                     }
                 }
             },
