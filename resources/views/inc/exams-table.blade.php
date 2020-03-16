@@ -258,7 +258,7 @@
 
         $(document).ready(function() {
             var otable = $('#exams').DataTable({
-                "order": [[0, "desc"]],
+                "order": [[@role('Super Admin') 2 @else 1 @endrole, "desc"]],
                 dom: 'Bfrti',
                 buttons: [
                     'copy', 'csv', 'excel', 'print'
@@ -380,8 +380,9 @@
 
             //Add search criteria from GET data
             @if(@$_GET['date'])
-            $('#min-date').trigger('change');
-            $('#max-date').trigger('change');
+            $('#min-date').trigger('change', function(){
+                $('#max-date').trigger('change');
+            });
             @endif
 
 
