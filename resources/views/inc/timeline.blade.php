@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="main-timeline">
-
+                <?php $count = 0; ?>
                     @foreach($timelines as $key=>$entry)
                         <div class="timeline">
                             <div class="timeline-icon"></div>
@@ -14,12 +14,13 @@
                             </div>
                         </div>
                     @endforeach
+                    @if($count < 1)
+                        No timeline entries to show
+                    @endif
 
 
 
             </div>
         </div>
     </div>
-@else
-    No timeline information to show
 @endif
