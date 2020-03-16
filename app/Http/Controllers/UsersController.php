@@ -54,10 +54,13 @@ class UsersController extends Controller
                 })
                 ->get();
         }else{
-
             $centre_id = session('centre')->id;
-            $users =  User::orderBy('lastname','DESC')->orderBy('firstname','DESC')
-                ->where('centre_id', $centre_id)
+            $users =  User::orderBy('lastname','DESC')
+                ->orderBy('firstname','DESC')
+                ->when($centre_id, function ($query, $centre_id) {
+                    return $query->where('centre_id', $centre_id);
+                })
+                ->role(['Invigilator', 'Centre Admin'])
                 ->get();
         }
 

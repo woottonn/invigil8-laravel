@@ -34,7 +34,7 @@
                                                 <th class="select-filter">Name</th>
                                                 <th>Email</th>
                                                 <th class="select-filter">Roles</th>
-                                                @can(['USERS-edit-users','USERS-edit-users'])
+                                                @can('USERS-edit')
                                                     <th width="90" style="text-align:center">Actions</th>
                                                 @endcan
                                             </tr>
@@ -58,13 +58,13 @@
                                                         None
                                                     @endif
                                                 </td>
-                                                @can(['USERS-edit-users','USERS-edit-users'])
+                                                @can('USERS-edit')
                                                     <td align="center">
-                                                        @can('USERS-edit-users')
-                                                            <a href="{{ route('users.edit', [$user]) }}" title="Edit" data-toggle="tooltip" data-placement="bottom" rel="tooltip">
-                                                                <button class="btn btn-sm btn-success text-white" style="width:33px"><i class="fas fa-edit"></i></button>
+                                                        @can('USERS-edit')
+                                                            <a href="{{ route('users.edit', [$user]) }}">
+                                                                <button class="btn btn-sm btn-success text-white" style="width:33px"  title="Edit" data-toggle="tooltip" data-placement="bottom" rel="tooltip"><i class="fas fa-edit"></i></button>
                                                             </a>                                                        @endcan
-                                                        @can('USERS-delete-users')
+                                                        @can('USERS-delete')
                                                         <form action="{{ route('users.destroy', [$user]) }}" method="POST" class="no-form-style d-none" id="delete-form-{{$user->id}}">
                                                             @METHOD('DELETE')
                                                             <button class="btn btn-danger" type="submit">Delete</button>
