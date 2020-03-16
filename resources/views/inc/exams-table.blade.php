@@ -160,7 +160,7 @@
                                                     @endforeach
                                                         "
                                                           @endif
-                                                    >{{$exam->participations_lead()->count()}}/{{$exam->invigilators_lead_req ?? '0'}}</span>@else<span class="badge" style="font-size:13px;background-color:#d68300;color:#fff;font-weight:normal"
+                                                    > {{$exam->participations_lead()->count()}}/{{$exam->invigilators_lead_req ?? '0'}}</span>@else<span class="badge" style="font-size:13px;background-color:#d68300;color:#fff;font-weight:normal"
                                                           @if(($exam->hide_names!==1||auth()->user()->can('EXAMS-edit'))&&$exam->participations_lead()->count() > 0)
                                                               data-toggle="tooltip" data-html="true" data-placement="bottom" rel="tooltip" title="
                                                                     @foreach($exam->participations_lead() as $participation)
