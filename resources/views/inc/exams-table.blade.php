@@ -67,14 +67,14 @@
                                     @if(@$tableheaders['date'])
                                         <th @if(@$filter['date'])class="select-filter"@endif data-type="Date">Date</th>
                                     @endif
+                                    @if(@$tableheaders['location'])
+                                        <th class="d-none d-sm-none d-md-none d-lg-table-cell d-xl-table-cell @if(@$filter['location']) select-filter @endif " data-type="Location">Location</th>
+                                    @endif
                                     @if(@$tableheaders['state']&&auth()->user()->can('EXAMS-edit'))
                                         <th @if(@$filter['state'])class="select-filter"@endif data-type="State">State</th>
                                     @endif
                                     @if(@$tableheaders['start_finish'])
                                         <th @if(@$filter['start_finish'])class="select-filter"@endif data-type="Start &amp; Finish">Start &amp; Finish</th>
-                                    @endif
-                                    @if(@$tableheaders['location'])
-                                        <th class="d-none d-sm-none d-md-none d-lg-table-cell d-xl-table-cell @if(@$filter['location']) select-filter @endif " data-type="Location">Location</th>
                                     @endif
                                     @if(@$tableheaders['invigilators_lead_req'])
                                         <th @if(@$filter['invigilators_lead_req'])class="select-filter"@endif data-type="Lead">Lead</th>
@@ -107,13 +107,7 @@
                                         @if(@$tableheaders['description'])
                                             <td style="min-width: 110px;">
                                                 @can('EXAMS-view')
-                                                    <a href="{{route('exams.show', [$exam])}}" data-toggle="tooltip" data-placement="bottom" rel="tooltip" title="Open the exam to view more details">
-                                                        {{ $exam->description }}
-                                                    </a>
-                                                @else
-                                                    <strong>{{ $exam->description }}</strong>
-                                                @endcan
-                                                <span class="d-block d-sm-block d-md-block d-lg-none d-xl-none">
+                                                    <a href="{{route('exams.show', [$exam])}}" data-toggle="tooltip" data-placement="bottom" rel="tooltip" title="Open the exam to view more details">{{ $exam->description }}</a> @else <strong>{{ $exam->description }}</strong> @endcan <span class="d-block d-sm-block d-md-block d-lg-none d-xl-none">
                                                     <strong>{{ $exam->location->name }}</strong><br>
                                                 </span>
                                             </td>
@@ -122,6 +116,14 @@
                                         @if(@$tableheaders['date'])
                                             <td data-sort="{{$exam->date}}">
                                                 {{$exam->pretty_date_short}} - {{ $exam->pretty_time }}
+                                            </td>
+                                        @endif
+
+                                        @if(@$tableheaders['location'])
+                                            <td class="d-none d-sm-none d-md-none d-lg-table-cell d-xl-table-cell">
+                                                <a href="{{route('exams.index', ['filter_location' => urlencode($exam->location->name)])}}" title="View exams in {{$exam->location->name}}" data-toggle="tooltip" data-placement="bottom" rel="tooltip">
+                                                    {{ $exam->location->name }}
+                                                </a>
                                             </td>
                                         @endif
 
@@ -147,39 +149,58 @@
                                             </td>
                                         @endif
 
-                                        @if(@$tableheaders['location'])
-                                            <td class="d-none d-sm-none d-md-none d-lg-table-cell d-xl-table-cell">
-                                                <a href="{{route('exams.index', ['filter_location' => urlencode($exam->location->name)])}}" title="View exams in {{$exam->location->name}}" data-toggle="tooltip" data-placement="bottom" rel="tooltip">
-                                                    {{ $exam->location->name }}
-                                                </a>
-                                            </td>
-                                        @endif
-
                                         @if(@$tableheaders['invigilators_lead_req'])
                                             <td>
                                                 @if($exam->lead_full)
-                                                    <span class="badge" style="font-size:13px;background-color:#006802;color:#fff;font-weight:normal">
+                                                    <span class="badge" style="font-size:13px;background-color:#006802;color:#fff;font-weight:normal"
+                                                          @if(($exam->hide_names!==1||auth()->user()->can('EXAMS-edit'))&&$exam->participations_extra()->count() > 0)
+                                                          data-toggle="tooltip" data-html="true" data-placement="bottom" rel="tooltip" title="
+                                                                    @foreach($exam->participations_lead() as $participation)
+                                                                        &bull;&nbsp;{{App\User::find($participation->user_id)->full_name}}
+                                                    @endforeach
+                                                        "
+                                                          @endif
+                                                    >
                                                         {{$exam->participations_lead()->count()}}/{{$exam->invigilators_lead_req ?? '0'}}
                                                     </span>
                                                 @else
-                                                    <span class="badge" style="font-size:13px;background-color:#d68300;color:#fff;font-weight:normal">
-                                                        {{$exam->participations_lead()->count()}}/{{$exam->invigilators_lead_req ?? '0'}}
-                                                    </span>
-                                                @endif
+                                                    <span class="badge" style="font-size:13px;background-color:#d68300;color:#fff;font-weight:normal"
+                                                          @if(($exam->hide_names!==1||auth()->user()->can('EXAMS-edit'))&&$exam->participations_lead()->count() > 0)
+                                                              data-toggle="tooltip" data-html="true" data-placement="bottom" rel="tooltip" title="
+                                                                    @foreach($exam->participations_lead() as $participation)
+                                                                        &bull;&nbsp;{{App\User::find($participation->user_id)->full_name}}
+                                                                    @endforeach
+                                                            "
+                                                          @endif
+                                                    >{{$exam->participations_lead()->count()}}/{{$exam->invigilators_lead_req ?? '0'}}</span> @endif<div class="hide_names">@foreach($exam->participations_lead() as $participation)&bull;&nbsp;{{App\User::find($participation->user_id)->full_name}}&nbsp; @endforeach </div>
                                             </td>
                                         @endif
 
                                         @if(@$tableheaders['invigilators_req'])
                                             <td>
                                                 @if($exam->extra_full)
-                                                    <span class="badge" style="font-size:13px;background-color:#006802;color:#fff;font-weight:normal">
+                                                    <span class="badge" style="font-size:13px;background-color:#006802;color:#fff;font-weight:normal"
+                                                          @if(($exam->hide_names!==1||auth()->user()->can('EXAMS-edit'))&&$exam->participations_extra()->count() > 0)
+                                                          data-toggle="tooltip" data-html="true" data-placement="bottom" rel="tooltip" title="
+                                                                    @foreach($exam->participations_extra() as $participation)
+                                                                        &bull;&nbsp;{{App\User::find($participation->user_id)->full_name}}
+                                                    @endforeach
+                                                        "
+                                                          @endif
+                                                    >
                                                         {{$exam->participations_extra()->count()}}/{{$exam->invigilators_req ?? '0'}}
                                                     </span>
                                                 @else
-                                                    <span class="badge" style="font-size:13px;background-color:#d68300;color:#fff;font-weight:normal">
-                                                        {{$exam->participations_extra()->count()}}/{{$exam->invigilators_req ?? '0'}}
-                                                    </span>
-                                                @endif
+                                                    <span class="badge" style="font-size:13px;background-color:#d68300;color:#fff;font-weight:normal"
+                                                          @if(($exam->hide_names!==1||auth()->user()->can('EXAMS-edit'))&&$exam->participations_extra()->count() > 0)
+                                                          data-toggle="tooltip" data-html="true" data-placement="bottom" rel="tooltip" title="
+                                                                    @foreach($exam->participations_extra() as $participation)
+                                                                        &bull;&nbsp;{{App\User::find($participation->user_id)->full_name}}
+                                                    @endforeach
+                                                        "
+                                                          @endif
+                                                    >{{$exam->participations_extra()->count()}}/{{$exam->invigilators_req ?? '0'}}</span> @endif<div class="hide_names">@foreach($exam->participations_extra() as $participation)&bull;&nbsp;{{App\User::find($participation->user_id)->full_name}}&nbsp; @endforeach </div>
+
                                             </td>
                                         @endif
 
@@ -296,7 +317,7 @@
             // Setup - add a text input to each header cell
             $('.select-filter').each(function () {
                 var title = $(this).text();
-                $(this).html('<input type="text" class="form-control filter" data-state-save="true" preset="' + title + '" placeholder="' + title + '" />');
+                $(this).html('<input type="text" class="form-control filter" data-state-save="true" preset="' + title + '" placeholder="' + title + '" /><div class="hide_names">'+title+'</div>');
             });
 
             // Apply the search

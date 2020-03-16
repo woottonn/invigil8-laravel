@@ -81,7 +81,7 @@
         <label for="hide_names">Hide names from invigilators?</label>
         <select class="form-control @error('hide_names') is-invalid @enderror" id="hide_names" name="hide_names">
             <option value="1" @if(@$exam->hide_names == 1) selected @endif>Yes</option>
-            <option value="0" @if(@$exam->hide_names == 0) selected @endif>No</option>
+            <option value="0" @if(@$exam->hide_names||@old('state') == 0) selected @endif>No</option>
         </select>
     </div>
 
@@ -94,8 +94,8 @@
     <div class="form-group col-md-6 col-lg-4 col-xl-3">
         <label for="state">State</label>
         <select class="form-control @error('state') is-invalid @enderror" id="state" name="state">
-            <option value="0" @if(@$exam->state == 0) selected @endif>Draft (Invisible to invigilators)</option>
-            <option value="1" @if(@$exam->state == 1) selected @endif>Live (Visible to invigilators)</option>
+            <option value="0" @if(@$exam->state) selected @endif>Draft (Invisible to invigilators)</option>
+            <option value="1" @if(@$exam->state||@old('state') == 1) selected @endif>Live (Visible to invigilators)</option>
         </select>
     </div>
 

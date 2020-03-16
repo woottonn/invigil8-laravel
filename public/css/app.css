@@ -1711,6 +1711,12 @@ password {
   opacity: 0.15;
 }
 
+.hide_names {
+  height: 0;
+  width: 0;
+  overflow: hidden;
+}
+
 .main-timeline {
   overflow: hidden;
   position: relative;
