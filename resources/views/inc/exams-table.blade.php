@@ -354,7 +354,7 @@
                 function(settings, data, dataIndex) {
                     var min = $('#min-date').val();
                     var max = $('#max-date').val();
-                    var createdAt = data[10]; // Our date column in the table
+                    var createdAt = data[@role('Super Admin') 11 @else 10 @endrole]; // Our date column in the table
 
                     console.log(min);
 
