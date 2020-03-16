@@ -38,6 +38,8 @@ foreach($exams as $exam){
 
     $end = explode('-', config('sitevars.seasons')[session('season')->name]['date_end']);
     $start = explode('-', config('sitevars.seasons')[session('season')->name]['date_start']);
+
+    dd($end);
 }
 
 ?>
@@ -48,8 +50,8 @@ foreach($exams as $exam){
             :exams="{{ json_encode($data) }}"
             :screenscol="$screens({ default: 1, md: 2, lg: 3, xl: 4 })"
             :screensrow="$screens({ default: 1, md: 2, lg: 2, xl: 3 })"
-            :theend="@if(@$end) {{ json_encode($end) }} @endif"
-            :thestart="@if(@$start) {{ json_encode($start) }} @endif"
+            :theend="{{ json_encode($end) }}"
+            :thestart="{{ json_encode($start) }}"
         >
         </vue-calendar>
     </div>
