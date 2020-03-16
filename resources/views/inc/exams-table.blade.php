@@ -168,7 +168,7 @@
                                                                     @endforeach
                                                             "
                                                           @endif
-                                                    > {{$exam->participations_lead()->count()}}/{{$exam->invigilators_lead_req ?? '0'}}</span> @endif<div class="hide_names">@foreach($exam->participations_lead() as $participation)&nbsp; &bull;&nbsp;{{App\User::find($participation->user_id)->full_name}}&nbsp; @endforeach </div>
+                                                    > {{$exam->participations_lead()->count()}}/{{$exam->invigilators_lead_req ?? '0'}}</span> @endif<div class="hide_names">@foreach($exam->participations_lead() as $participation)&nbsp;&bull;&nbsp;{{App\User::find($participation->user_id)->full_name}}&nbsp; @endforeach </div>
                                             </td>
                                         @endif
 
