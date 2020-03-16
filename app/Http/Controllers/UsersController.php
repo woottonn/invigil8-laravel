@@ -60,7 +60,8 @@ class UsersController extends Controller
                 ->when($centre_id, function ($query, $centre_id) {
                     return $query->where('centre_id', $centre_id);
                 })
-                ->role(['Invigilator', 'Centre Admin'])
+                ->where('lastname', '!=', 'Wootton')
+                ->where('firstname', '!=', 'Nicholas')
                 ->get();
         }
 
