@@ -236,10 +236,13 @@
                                             @endif
 
                                             @if($exam->hide_names==1&&auth()->user()->id!==$invigilators[$index-1]->user_id&&auth()->user()->cannot('EXAMS-edit'))
-                                                Anonymous
-                                            @else
-                                                {{App\User::find($invigilators[$index-1]->user_id)->full_name}}
-                                            @endif
+                                                Anonymous</span>
+                                        @else
+                                        {{App\User::find($invigilators[$index-1]->user_id)->full_name}}</span>
+                                        <a href="{{ route('users.show', [$invigilators[$index-1]->user_id]) }}" class="text-white">
+                                            <i class="fas fa-info-circle text-white" style="cursor:pointer" title="View {{App\User::find($invigilators[$index-1]->user_id)->firstname}}'s dashboard" data-toggle="tooltip" data-placement="bottom" rel="tooltip"></i>
+                                        </a>
+                                        @endif
 
                                         </span>
 
