@@ -36,11 +36,10 @@ foreach($exams as $exam){
         );
     array_push($data, $new_exam);
 
-    $end = explode('-', config('sitevars.seasons')[session('season')->name]['date_end']);
-    $start = explode('-', config('sitevars.seasons')[session('season')->name]['date_start']);
-
-    dd($end);
 }
+
+$end = explode('-', config('sitevars.seasons')[session('season')->name]['date_end']);
+$start = explode('-', config('sitevars.seasons')[session('season')->name]['date_start']);
 
 ?>
 <div id="calendar_box">
