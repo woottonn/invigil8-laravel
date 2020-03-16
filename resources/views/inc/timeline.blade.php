@@ -20,4 +20,6 @@
             </div>
         </div>
     </div>
+@else
+    No timeline information to show
 @endif
