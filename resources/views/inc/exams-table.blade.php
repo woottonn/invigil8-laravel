@@ -375,7 +375,7 @@
 
             //Add search criteria from GET
             @if(@$_GET['filter_location'])
-            $('input[preset=Location]').val('{!! $_GET['filter_location'] !!}').trigger('keyup');
+            $('input[preset=Location]').val('{!! urldecode($_GET['filter_location']) !!}').trigger('keyup');
             @endif
 
             //Add search criteria from GET data
