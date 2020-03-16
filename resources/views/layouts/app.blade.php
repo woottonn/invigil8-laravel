@@ -5,7 +5,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <link rel='manifest' href='{{asset('manifest.webmanifest')}}'>
-    <meta name="theme-color" content="#34495E"/>
+    <meta name="theme-color" content="#00123c"/>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <meta name="csrf-token" content="{{ csrf_token() }}">

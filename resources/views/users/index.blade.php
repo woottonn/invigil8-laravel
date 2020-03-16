@@ -42,9 +42,13 @@
                                         @foreach($users as $user)
                                             <tr>
                                                 <td>
-                                                    <a href="{{ route('users.show', $user->id) }}">
+                                                    @if($user->hasRole('Invigilator'))
+                                                        <a href="{{ route('users.show', $user->id) }}">
+                                                            {{ $user->full_name }}
+                                                        </a>
+                                                    @else
                                                         {{ $user->full_name }}
-                                                    </a>
+                                                    @endif
                                                 </td>
                                                 <td>{{ $user->email }}</td>
                                                 <td>

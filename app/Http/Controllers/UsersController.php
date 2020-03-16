@@ -65,6 +65,7 @@ class UsersController extends Controller
                 ->get();
         }
 
+
         $title = "Users";
         $subtitle = "A list of all users in the system.";
         return view('users.index', compact('users', 'centre_id', 'title', 'subtitle'));
@@ -124,7 +125,7 @@ class UsersController extends Controller
         $user = new User();
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
-        $user->centre_id = $request->centre_id;
+        $user->centre_id = $centre_id->centre_id;
         $user->email = $request->email;
         $user->api_token = Str::random(60);
         $user->password = Hash::make($request->password);
