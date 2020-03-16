@@ -13,9 +13,14 @@
                                 </p>
                             </div>
                         </div>
+                        <?php $count++; ?>
                     @endforeach
                     @if($count < 1)
-                        No timeline entries to show
+                        @push('scripting')
+                            <script>
+                                $('.main-timeline').remove();
+                            </script>
+                        @endpush
                     @endif
 
 
