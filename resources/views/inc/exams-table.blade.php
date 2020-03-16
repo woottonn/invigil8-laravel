@@ -153,7 +153,7 @@
                                             <td>
                                                 @if($exam->lead_full)
                                                     <span class="badge" style="font-size:13px;background-color:#006802;color:#fff;font-weight:normal"
-                                                          @if(($exam->hide_names!==1||auth()->user()->can('EXAMS-edit'))&&$exam->participations_extra()->count() > 0)
+                                                          @if(($exam->hide_names!==1||auth()->user()->can('EXAMS-edit'))&&$exam->participations_lead()->count() > 0)
                                                           data-toggle="tooltip" data-html="true" data-placement="bottom" rel="tooltip" title="
                                                                     @foreach($exam->participations_lead() as $participation)
                                                                         &bull;&nbsp;{{App\User::find($participation->user_id)->full_name}}
