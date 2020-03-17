@@ -13,7 +13,12 @@
                                         {{session('centre')->name}}
                                     @endif
                                 </h4>
-                                A list of all users
+                                A list of all users -
+                                @if(@$_GET['deleted'])
+                                    <a href="{{ route('users.index') }}">Show active users</a>
+                                @else
+                                    <a href="{{ route('users.index', ['deleted' => 1]) }}">Show deleted users</a>
+                                @endif
                             </div>
                             <div class="col-md-6">
                                 <a href="{{ route('users.create') }}">

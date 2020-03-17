@@ -42,15 +42,19 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         $centre_id = session('centre')->id ?? '';
+        $deleted = @$request->deleted;
 
         if(auth()->user()->hasRole('Super Admin')){
             $users =  User::orderBy('lastname','DESC')
                 ->orderBy('firstname','DESC')
                 ->when($centre_id, function ($query, $centre_id) {
                     return $query->where('centre_id', $centre_id);
+                })
+                ->when($deleted, function ($query) {
+                    return $query->onlyTrashed();
                 })
                 ->get();
         }else{
@@ -59,6 +63,10 @@ class UsersController extends Controller
                 ->orderBy('firstname','ASC')
                 ->when($centre_id, function ($query, $centre_id) {
                     return $query->where('centre_id', $centre_id);
+                })
+                ->when($deleted, function ($query) {
+                    dd(1111);
+                    return $query->onlyTrashed();
                 })
                 ->role(['Invigilator', 'Centre Admin'])
                 ->get();
