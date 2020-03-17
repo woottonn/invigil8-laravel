@@ -55,6 +55,17 @@ class DashboardController extends Controller
 
         if((auth()->user()->hasRole('Super Admin')||auth()->user()->centre_id==$user->centre_id)||($user->id==auth()->user()->id)){
 
+            $exams_table = \App\Exam::orderBy('date','DESC')
+                ->join('participations','exams.id','=','participations.exam_id')
+                ->where('participations.user_id', $user->id)
+                ->when(session('season')->id, function ($query) {
+                    return $query->where('exams.season_id', session('season')->id);
+                })
+                ->when(session('centre')->id, function ($query) {
+                    return $query->where('exams.centre_id',  session('centre')->id);
+                })
+                ->get('exams.*');
+
             $exams = \App\Exam::orderBy('date','DESC')
                 ->where('state', 1)
                 ->when(session('season')->id, function ($query) {
@@ -64,6 +75,8 @@ class DashboardController extends Controller
                     return $query->where('exams.centre_id',  session('centre')->id);
                 })
                 ->get();
+
+
 
             $data = [];
 
@@ -94,29 +107,31 @@ class DashboardController extends Controller
 
 
 
-        if(auth()->user()->hasRole('Super Admin')){
-        $timelines = Timeline::orderBy('id', 'DESC')
-            ->where(function ($query) {
-                return $query
-                    ->where('user_id', 0)
-                    ->orWhere('user_id', auth()->user()->id);
-            })
-            ->when(session('season')->id, function ($query) {
-                return $query->where('season_id', session('season')->id);
-            })
-            ->when(session('centre')->id, function ($query) {
-                return $query->where('centre_id', session('centre')->id);
-            })
-            ->get();
+        if(auth()->user()->hasRole('Invigilator')){
+            $timelines = Timeline::orderBy('id', 'DESC')
+                ->where(function ($query) {
+                    return $query
+                        ->where('user_id', 0)
+                        ->orWhere('user_id', auth()->user()->id);
+                })
+                ->when(session('season')->id, function ($query) {
+                    return $query->where('season_id', session('season')->id);
+                })
+                ->when(session('centre')->id, function ($query) {
+                    return $query->where('centre_id', session('centre')->id);
+                })
+                ->get();
+            $title = $user->firstname . "'s Dashboard";
+            $subtitle = "A timeline and an overview of exams";
          }else{
             $timelines = "";
+            $title = $user->full_name . "'s Dashboard";
+            $subtitle = "An overview of ".$user->firstname."'s exams";
         }
 
-        $title = $user->firstname . "'s Dashboard";
-        $subtitle = "A timeline and an overview of exams";
         $include_icon_create = 1;
 
-        return view('dashboard', compact('include_icon_create', 'user', 'title', 'subtitle', 'data', 'timelines', 'exams'));
+        return view('dashboard', compact('exams_table', 'include_icon_create', 'user', 'title', 'subtitle', 'data', 'timelines', 'exams'));
 
     }else{abort('403');}}
 
