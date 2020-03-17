@@ -67,7 +67,6 @@ class DashboardController extends Controller
                 ->get('exams.*');
 
             $exams = \App\Exam::orderBy('date','DESC')
-                ->where('state', 1)
                 ->when(session('season')->id, function ($query) {
                     return $query->where('exams.season_id', session('season')->id);
                 })
@@ -88,7 +87,7 @@ class DashboardController extends Controller
                     $highlight = 'blue';
                     $registered =  '';
                 }
-                if(auth()->user()->id!==$user->id&&$registered!==""||auth()->user()->id==$user->id) {
+                if((auth()->user()->id!==$user->id&&$registered!=="")||(auth()->user()->id==$user->id&&(@$registered||$exam->state==1))) {
                     $new_exam =
                         array(
                             'customData' => array(

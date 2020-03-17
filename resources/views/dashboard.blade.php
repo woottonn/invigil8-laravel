@@ -14,7 +14,7 @@
             :thestart="{{ json_encode($start) }}"
         >
         </vue-calendar>
-        <?php $exams = $exams_table; ?>
+        <?php $exams = @$exams_table; ?>
         @can('EXAMS-edit')
             <div class="mt-4"></div>
             @include('inc.exams-table',
