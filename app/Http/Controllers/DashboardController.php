@@ -111,7 +111,7 @@ class DashboardController extends Controller
         }
 
         $title = $user->firstname . "'s Dashboard";
-        $subtitle = "Data overview.";
+            $subtitle = "A timeline and an overview of exams";
         $include_icon_create = 1;
 
         return view('dashboard', compact('include_icon_create', 'user', 'title', 'subtitle', 'data', 'timelines', 'exams'));
@@ -162,7 +162,7 @@ class DashboardController extends Controller
             ->get();
 
         $title = "Dashboard - Centre Admin";
-        $subtitle = "Overview of your exams and users.";
+        $subtitle = "A timeline and an overview of your exams";
 
         $include_icon_create = 1;
         return view('dashboard-centre', compact('title', 'subtitle', 'timelines', 'data', 'include_icon_create'));
@@ -212,7 +212,7 @@ class DashboardController extends Controller
             ->get();
 
         $title = "Dashboard - Super Admin";
-        $subtitle = "Overview of exams and users.";
+        $subtitle = "A timeline and an overview of your exams";
 
         $include_icon_create = 1;
 

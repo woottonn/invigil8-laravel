@@ -95,10 +95,11 @@ class ParticipationsController extends Controller
 
         // Add to timeline
         if($participation->participation_type == 1){ $type = " as a lead invigilator "; }else{ $type = " as an invigilator "; }
-        if ($participation->user_id==auth()->user()->id){
+
+        if ($participation->user_id==auth()->user()->id&&User::find($participation->user_id)){
             addToTimeline($participation->user_id, $participation->author_id, $participation->exam_id,session('centre')->id, session('season')->id,
                 "<a href='".url('/') . "/users/" . $participation->user_id . "'>".User::find($participation->user_id)->full_name."</a> removed themselves ".$type." from <a href='".url('/') . "/exams/" . $exam->id . "'>" . $exam->description . "</a>");
-        }else{
+        }elseif(User::find($participation->user_id)){
             addToTimeline($participation->user_id, $participation->author_id, $participation->exam_id,session('centre')->id, session('season')->id,
                 User::find($participation->author_id)->full_name . " removed <a href='".url('/') . "/users/" . $participation->user_id . "'>".User::find($participation->user_id)->full_name."</a> ".$type." from <a href='".url('/') . "/exams/" . $exam->id . "'>" . $exam->description . "</a>");
 

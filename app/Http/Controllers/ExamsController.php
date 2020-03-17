@@ -98,8 +98,6 @@ class ExamsController extends Controller
 
     public function today(Request $request)
     {
-        $centre_id = session('centre')->id ?? '';
-        $season_id = session('season')->id ?? '';
 
         if(auth()->user()->can('EXAMS-edit')){
 

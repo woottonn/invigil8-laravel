@@ -110,9 +110,11 @@
                                 <div class="col-md-6 col-lg-4 col-xl-3">
                                     <label>Lead Invigilator {{$index}}</label>
                                     <div class="@if(auth()->user()->id==$lead_invigilators[$index-1]->user_id) invigilator_me @else invigilator_assigned @endif">
-                                        <span title="@if($lead_invigilators[$index-1]->author_id==$lead_invigilators[$index-1]->user_id)
+
+                                        <span title="
+                                            @if($lead_invigilators[$index-1]->author_id==$lead_invigilators[$index-1]->user_id)
                                               This user signed up to this exam
-                                              @else
+                                            @else
                                               This user was manually assigned by the admin
                                             @endif
                                             " data-toggle="tooltip" data-placement="bottom" rel="tooltip">
@@ -121,13 +123,18 @@
                                             @endif
 
                                             @if($exam->hide_names==1&&auth()->user()->id!==$lead_invigilators[$index-1]->user_id&&auth()->user()->cannot('EXAMS-edit'))
-                                                Anonymous</span>
+                                                Anonymous
                                             @else
-                                                {{App\User::find($lead_invigilators[$index-1]->user_id)->full_name}}</span>
-                                            <a href="{{ route('users.show', [$lead_invigilators[$index-1]->user_id]) }}" class="text-white">
-                                                <i class="fas fa-info-circle text-white" style="cursor:pointer" title="View {{App\User::find($lead_invigilators[$index-1]->user_id)->firstname}}'s dashboard" data-toggle="tooltip" data-placement="bottom" rel="tooltip"></i>
-                                            </a>
+                                                {{ App\User::withTrashed()->where('id', $lead_invigilators[$index-1]->user_id)->first()->full_name }}
+                                        </span>
+                                        @if(App\User::onlyTrashed()->where('id', $lead_invigilators[$index-1]->user_id)->first())
+                                                <i class="fas fa-exclamation-triangle text-orange" style="cursor:pointer" title="{{App\User::withTrashed()->where('id', $lead_invigilators[$index-1]->user_id)->first()->full_name}} has been removed from the system" data-toggle="tooltip" data-placement="bottom" rel="tooltip"></i>
+                                            @else
+                                                <a href="{{ route('users.show', [$lead_invigilators[$index-1]->user_id]) }}" class="text-white">
+                                                    <i class="fas fa-info-circle text-white" style="cursor:pointer" title="View {{App\User::find($lead_invigilators[$index-1]->user_id)->firstname}}'s dashboard" data-toggle="tooltip" data-placement="bottom" rel="tooltip"></i>
+                                                </a>
                                             @endif
+                                        @endif
 
 
                                         <form action="{{ route('participations.destroy', [$lead_invigilators[$index-1]]) }}" method="POST" class="no-form-style d-none" id="delete-participation-form-{{ $lead_invigilators[$index-1]->user_id }}">
@@ -225,26 +232,31 @@
                                 <div class="col-md-6 col-lg-4 col-xl-3">
                                     <label>Lead Invigilator {{$index}}</label>
                                     <div class="@if(auth()->user()->id==$invigilators[$index-1]->user_id) invigilator_me @else invigilator_assigned @endif">
-                                        <span title="@if($invigilators[$index-1]->author_id==$invigilators[$index-1]->user_id)
+
+                                        <span title="
+                                            @if($invigilators[$index-1]->author_id==$invigilators[$index-1]->user_id)
                                             This user signed up to this exam
-                                            @else
+                                        @else
                                             This user was manually assigned by the admin
-                                            @endif
+                                        @endif
                                             " data-toggle="tooltip" data-placement="bottom" rel="tooltip">
                                             @if($invigilators[$index-1]->author_id==$invigilators[$index-1]->user_id)
                                                 <i class="fa fa-user"></i>
                                             @endif
 
                                             @if($exam->hide_names==1&&auth()->user()->id!==$invigilators[$index-1]->user_id&&auth()->user()->cannot('EXAMS-edit'))
-                                                Anonymous</span>
-                                        @else
-                                        {{App\User::find($invigilators[$index-1]->user_id)->full_name}}</span>
-                                        <a href="{{ route('users.show', [$invigilators[$index-1]->user_id]) }}" class="text-white">
-                                            <i class="fas fa-info-circle text-white" style="cursor:pointer" title="View {{App\User::find($invigilators[$index-1]->user_id)->firstname}}'s dashboard" data-toggle="tooltip" data-placement="bottom" rel="tooltip"></i>
-                                        </a>
-                                        @endif
-
+                                                Anonymous
+                                            @else
+                                                {{ App\User::withTrashed()->where('id', $invigilators[$index-1]->user_id)->first()->full_name }}
                                         </span>
+                                        @if(App\User::onlyTrashed()->where('id', $invigilators[$index-1]->user_id)->first())
+                                            <i class="fas fa-exclamation-triangle text-orange" style="cursor:pointer" title="{{App\User::withTrashed()->where('id', $invigilators[$index-1]->user_id)->first()->full_name}} has been removed from the system" data-toggle="tooltip" data-placement="bottom" rel="tooltip"></i>
+                                        @else
+                                            <a href="{{ route('users.show', [$invigilators[$index-1]->user_id]) }}" class="text-white">
+                                                <i class="fas fa-info-circle text-white" style="cursor:pointer" title="View {{App\User::find($invigilators[$index-1]->user_id)->firstname}}'s dashboard" data-toggle="tooltip" data-placement="bottom" rel="tooltip"></i>
+                                            </a>
+                                        @endif
+                                        @endif
 
                                         <form action="{{ route('participations.destroy', [$invigilators[$index-1]]) }}" method="POST" class="no-form-style d-none" id="delete-participation-form-{{ $invigilators[$index-1]->user_id }}">
                                             @METHOD('DELETE')
