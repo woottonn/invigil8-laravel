@@ -65,7 +65,6 @@ class UsersController extends Controller
                     return $query->where('centre_id', $centre_id);
                 })
                 ->when($deleted, function ($query) {
-                    dd(1111);
                     return $query->onlyTrashed();
                 })
                 ->role(['Invigilator', 'Centre Admin'])
