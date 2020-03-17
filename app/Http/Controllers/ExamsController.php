@@ -332,8 +332,6 @@ class ExamsController extends Controller
             ->where('centre_id', $exam->centre_id)
             ->get();
 
-        $include_icon_camera = 1;
-
         //Get assigned invigilators
         $lead_invigilators = $exam->participations_lead();
         $invigilators = $exam->participations_extra();
@@ -348,7 +346,10 @@ class ExamsController extends Controller
         if($exam->state==1){ $s = "<span class='text-primary'>Live</span>"; }else {$s = "<span class='text-danger'>Draft</span>"; }
         $title = "[" . $s . "] " . $exam->description . " - " . $exam->pretty_date;
         $subtitle = "Full information for this exam is found on this page.";
-        return view('exams.show', compact('exam', 'users', 'include_icon_camera', 'lead_invigilators', 'invigilators', 'title', 'subtitle', 'signed_up'));
+
+        $include_icon_create = 1;
+
+        return view('exams.show', compact(,'include_icon_create', 'exam', 'users', 'include_icon_camera', 'lead_invigilators', 'invigilators', 'title', 'subtitle', 'signed_up'));
 
     }else{abort('403');}}
 
