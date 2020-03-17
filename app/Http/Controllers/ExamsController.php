@@ -365,12 +365,12 @@ class ExamsController extends Controller
         $locations = Location::orderBy('name')->where('centre_id', session('centre')->id)->get();
         $centres = Centre::all();
 
-        $include_icon_camera = 1;
+        $include_icon_create = 1;
 
         $title = $exam->description . " - Edit";
         $subtitle = "Edit this exam.";
         $type = "Edit";
-        return view('exams.edit', compact('exam', 'locations', 'centres', 'include_icon_camera', 'title', 'subtitle', 'type'));
+        return view('exams.edit', compact('exam', 'locations', 'centres', 'include_icon_create', 'title', 'subtitle', 'type'));
 
     }else{abort('403');}}
 
