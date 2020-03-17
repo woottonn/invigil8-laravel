@@ -349,7 +349,7 @@ class ExamsController extends Controller
 
         $include_icon_create = 1;
 
-        return view('exams.show', compact('include_icon_create', 'exam', 'users', 'include_icon_camera', 'lead_invigilators', 'invigilators', 'title', 'subtitle', 'signed_up'));
+        return view('exams.show', compact('include_icon_create', 'exam', 'users', 'lead_invigilators', 'invigilators', 'title', 'subtitle', 'signed_up'));
 
     }else{abort('403');}}
 
