@@ -2,15 +2,26 @@
 @else
 <?php
 
-$exams = \App\Exam::orderBy('date','DESC')
-    ->when(session('season')->id, function ($query) {
-        return $query->where('exams.season_id', session('season')->id);
-    })
-    ->when(session('centre')->id, function ($query) {
-        return $query->where('exams.centre_id',  session('centre')->id);
-    })
-    ->get();
-
+if(auth()->user()->hasRole('Invigilator')){
+    $exams = \App\Exam::orderBy('date','DESC')
+        ->where('state', 1)
+        ->when(session('season')->id, function ($query) {
+            return $query->where('exams.season_id', session('season')->id);
+        })
+        ->when(session('centre')->id, function ($query) {
+            return $query->where('exams.centre_id',  session('centre')->id);
+        })
+        ->get();
+}else{
+    $exams = \App\Exam::orderBy('date','DESC')
+        ->when(session('season')->id, function ($query) {
+            return $query->where('exams.season_id', session('season')->id);
+        })
+        ->when(session('centre')->id, function ($query) {
+            return $query->where('exams.centre_id',  session('centre')->id);
+        })
+        ->get();
+}
 $data = [];
 foreach($exams as $exam){
     $date = substr($exam->date, 0, -9);

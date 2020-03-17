@@ -56,17 +56,17 @@ class DashboardController extends Controller
         if((auth()->user()->hasRole('Super Admin')||auth()->user()->centre_id==$user->centre_id)||($user->id==auth()->user()->id)){
 
             $exams = \App\Exam::orderBy('date','DESC')
-                ->join('participations','exams.id','=','participations.exam_id')
-                ->where('participations.user_id', $user->id)
+                ->where('state', 1)
                 ->when(session('season')->id, function ($query) {
                     return $query->where('exams.season_id', session('season')->id);
                 })
                 ->when(session('centre')->id, function ($query) {
                     return $query->where('exams.centre_id',  session('centre')->id);
                 })
-                ->get('exams.*');
+                ->get();
 
             $data = [];
+
             foreach($exams as $exam){
                 if(Participation::where('exam_id', $exam->id)->where('user_id', $user->id)->exists()){
                     $highlight = 'orange';
@@ -92,6 +92,8 @@ class DashboardController extends Controller
                 }
             }
 
+
+
         if(auth()->user()->hasRole('Super Admin')){
         $timelines = Timeline::orderBy('id', 'DESC')
             ->where(function ($query) {
@@ -111,7 +113,7 @@ class DashboardController extends Controller
         }
 
         $title = $user->firstname . "'s Dashboard";
-            $subtitle = "A timeline and an overview of exams";
+        $subtitle = "A timeline and an overview of exams";
         $include_icon_create = 1;
 
         return view('dashboard', compact('include_icon_create', 'user', 'title', 'subtitle', 'data', 'timelines', 'exams'));

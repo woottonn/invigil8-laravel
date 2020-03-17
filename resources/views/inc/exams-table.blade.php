@@ -156,7 +156,7 @@
                                                           @if(($exam->hide_names!==1||auth()->user()->can('EXAMS-edit'))&&$exam->participations_lead()->count() > 0)
                                                           data-toggle="tooltip" data-html="true" data-placement="bottom" rel="tooltip" title="
                                                                     @foreach($exam->participations_lead() as $participation)
-                                                                        &bull;&nbsp;{{App\User::find($participation->user_id)->full_name}}
+                                                                        &bull;&nbsp;{{ App\User::withTrashed()->where('id', $participation->user_id)->first()->full_name }}
                                                     @endforeach
                                                         "
                                                           @endif
@@ -164,11 +164,11 @@
                                                           @if(($exam->hide_names!==1||auth()->user()->can('EXAMS-edit'))&&$exam->participations_lead()->count() > 0)
                                                               data-toggle="tooltip" data-html="true" data-placement="bottom" rel="tooltip" title="
                                                                     @foreach($exam->participations_lead() as $participation)
-                                                                        &bull;&nbsp;{{App\User::find($participation->user_id)->full_name}}
+                                                                        &bull;&nbsp;{{ App\User::withTrashed()->where('id', $participation->user_id)->first()->full_name }}
                                                                     @endforeach
                                                             "
                                                           @endif
-                                                    > {{$exam->participations_lead()->count()}}/{{$exam->invigilators_lead_req ?? '0'}}</span> @endif<div class="hide_names">@foreach($exam->participations_lead() as $participation)&nbsp;&bull;&nbsp;{{App\User::find($participation->user_id)->full_name}}&nbsp; @endforeach </div>
+                                                    > {{$exam->participations_lead()->count()}}/{{$exam->invigilators_lead_req ?? '0'}}</span> @endif<div class="hide_names">@foreach($exam->participations_lead() as $participation)&nbsp;&bull;&nbsp;{{App\User::withTrashed()->where('id', $participation->user_id)->first()->full_name}}&nbsp; @endforeach </div>
                                             </td>
                                         @endif
 
@@ -179,8 +179,8 @@
                                                           @if(($exam->hide_names!==1||auth()->user()->can('EXAMS-edit'))&&$exam->participations_extra()->count() > 0)
                                                           data-toggle="tooltip" data-html="true" data-placement="bottom" rel="tooltip" title="
                                                                     @foreach($exam->participations_extra() as $participation)
-                                                                        &bull;&nbsp;{{App\User::find($participation->user_id)->full_name}}
-                                                    @endforeach
+                                                                        &bull;&nbsp;{{ App\User::withTrashed()->where('id', $participation->user_id)->first()->full_name }}
+                                                                    @endforeach
                                                         "
                                                           @endif
                                                     >{{$exam->participations_extra()->count()}}/{{$exam->invigilators_req ?? '0'}}
@@ -188,11 +188,11 @@
                                                           @if(($exam->hide_names!==1||auth()->user()->can('EXAMS-edit'))&&$exam->participations_extra()->count() > 0)
                                                           data-toggle="tooltip" data-html="true" data-placement="bottom" rel="tooltip" title="
                                                                     @foreach($exam->participations_extra() as $participation)
-                                                                        &bull;&nbsp;{{App\User::find($participation->user_id)->full_name}}
-                                                    @endforeach
+                                                                        &bull;&nbsp;{{App\User::withTrashed()->where('id', $participation->user_id)->first()->full_name}}
+                                                                    @endforeach
                                                         "
                                                           @endif
-                                                    >{{$exam->participations_extra()->count()}}/{{$exam->invigilators_req ?? '0'}}</span> @endif<div class="hide_names">@foreach($exam->participations_extra() as $participation)&bull;&nbsp;{{App\User::find($participation->user_id)->full_name}}&nbsp; @endforeach </div>
+                                                    >{{$exam->participations_extra()->count()}}/{{$exam->invigilators_req ?? '0'}}</span> @endif<div class="hide_names">@foreach($exam->participations_extra() as $participation)&bull;&nbsp;{{App\User::withTrashed()->where('id', $participation->user_id)->first()->full_name}}&nbsp; @endforeach </div>
 
                                             </td>
                                         @endif
@@ -368,7 +368,11 @@
                 function(settings, data, dataIndex) {
                     var min = $('#min-date').val();
                     var max = $('#max-date').val();
-                    var createdAt = data[@role('Super Admin') 11 @else 10 @endrole]; // Our date column in the table
+                    var createdAt = data[
+                        @role('Super Admin') 11 @endrole
+                        @role('Centre Admin') 10 @endrole
+                        @role('Invigilator') 9 @endrole
+                    ]; // Our date column in the table
 
                     console.log(min);
 
