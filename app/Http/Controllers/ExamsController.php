@@ -99,18 +99,12 @@ class ExamsController extends Controller
     public function today(Request $request)
     {
 
-        if(auth()->user()->can('EXAMS-edit')){
-
-            $exams = Exam::orderBy('date','DESC')
-                ->whereDate('date', Carbon::today())
-                ->when($this->cID, function ($query) {
-                    return $query->where('exams.centre_id', $this->cID);
-                })
-                ->get();
-
-        }else{
-
-        }
+        $exams = Exam::orderBy('date','DESC')
+            ->whereDate('date', Carbon::today())
+            ->when($this->cID, function ($query) {
+                return $query->where('exams.centre_id', $this->cID);
+            })
+            ->get();
 
         $include_icon_create = 1;
 

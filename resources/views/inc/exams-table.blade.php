@@ -238,7 +238,7 @@
                                                         </div>
                                                     @else
                                                         <a href="{{route('exams.show', [$exam])}}" class="invigilator_signup" style="height:auto !important;color:#fff;margin-bottom:0">
-                                                            Go&nbsp;to&nbsp;sign-up&nbsp;page
+                                                            Sign-up
                                                         </a>
                                                     @endif
                                                 @endcan
@@ -297,6 +297,7 @@
 
                 'oLanguage': {
                     sLengthMenu: "Show _MENU_",
+                    "infoFiltered": ""
                 },
                 "initComplete": function () {
                     $('#loader').hide(1, function () {

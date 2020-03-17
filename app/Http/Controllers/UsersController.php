@@ -112,6 +112,8 @@ class UsersController extends Controller
             $centre_id = $request->centre_id;
         }
 
+        $user_roles = $request->roles; // set them
+
         $this->validate($request, [
                 'firstname' => ['required', 'string', 'max:255'],
                 'lastname' => ['required', 'string', 'max:255'],
@@ -124,7 +126,7 @@ class UsersController extends Controller
         $user = new User();
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
-        $user->centre_id = $centre_id->centre_id;
+        $user->centre_id = $centre_id;
         $user->email = $request->email;
         $user->api_token = Str::random(60);
         $user->password = Hash::make($request->password);
@@ -133,22 +135,17 @@ class UsersController extends Controller
 
         //Check if someone is trying to circumvent the roles and add a superadmin
         if(!empty($request->roles)){
-            foreach($request->roles as $role){
                 if(auth()->user()->hasRole('Super Admin')){}else{
                     if(Role::findById($role)->name=="Super Admin"){
                         return redirect()->route('users.index')->with('error', 'Cheeky!');
-                    }
-                }
+                 }
             }
         }
         //End check
 
         // assign roles
         if(!empty($request->roles)){
-            $roles = $request->roles;
-            foreach($roles as $role){
-                $user->assignRole($role);
-            }
+            $user->assignRole($request->roles);
         }
 
         return redirect()->route('users.index')->with('success', 'User created successfully');
@@ -233,11 +230,9 @@ class UsersController extends Controller
 
         //Check if someone is trying to circumvent the roles and add a superadmin
         if(!empty($request->roles)){
-            foreach($request->roles as $role){
-                if(auth()->user()->hasRole('Super Admin')){}else{
-                    if(Role::findById($role)->name=="Super Admin"){
-                        return redirect()->route('users.index')->with('error', 'Cheeky!');
-                    }
+            if(auth()->user()->hasRole('Super Admin')){}else{
+                if(Role::findById($role)->name=="Super Admin"){
+                    return redirect()->route('users.index')->with('error', 'Cheeky!');
                 }
             }
         }

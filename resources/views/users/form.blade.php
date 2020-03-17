@@ -48,26 +48,26 @@
             </select>
         </div>
     @endrole
-    <div class="form-group col-md-12">
-        Roles
-        <hr>
-        @if(!$roles->isEmpty())
-            @foreach($roles as $role)
-                <div class="form-check d-inline-block mr-3">
-                    <input class="form-check-input"
-                           @if(@in_array($role->id,$user_roles))
-                           checked
-                           @endif
-                           type="checkbox" value="{{ $role->id }}" id="role_{{ $role->id }}" name="roles[]">
-                    <label class="form-check-label" for="role_{{ $role->id }}">
+
+    <div class="form-group col-md-6 col-lg-4">
+        <label for="roles">Role</label>
+        <select class="form-control" id="roles" name="roles[]">
+            @if(!$roles->isEmpty())
+                @foreach($roles as $role)
+                    <option
+                        @if(@in_array($role->id,$user_roles))
+                            selected="selected"
+                        @endif
+                        value="{{ $role->id }}">
                         {{ $role->name }}
-                    </label>
-                </div>
-            @endforeach
-        @else
-            <p>There are no roles in the system.</p>
-        @endif
+                    </option>
+                @endforeach
+            @else
+                <option>No roles available</option>
+            @endif
+        </select>
     </div>
+
 </div>
 <hr>
 <button type="submit" class="btn btn-primary">Submit</button>
