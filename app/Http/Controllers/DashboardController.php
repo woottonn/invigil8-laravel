@@ -106,7 +106,6 @@ class DashboardController extends Controller
             }
 
 
-
         if(auth()->user()->hasRole('Invigilator')){
             $timelines = Timeline::orderBy('id', 'DESC')
                 ->where(function ($query) {

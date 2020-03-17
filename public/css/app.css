@@ -1717,6 +1717,11 @@ password {
   overflow: hidden;
 }
 
+.vc-bar {
+  height: 5px !important;
+  margin-right: 1px;
+}
+
 .main-timeline {
   overflow: hidden;
   position: relative;
