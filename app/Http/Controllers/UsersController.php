@@ -71,8 +71,7 @@ class UsersController extends Controller
                 ->get();
         }
 
-
-        $title = "Users";
+        if(@$deleted){ $title = '<span class="text-danger">Deleted users</span>'; }else{ $title = "Users"; }
         $subtitle = "A list of all users in the system.";
         return view('users.index', compact('users', 'centre_id', 'title', 'subtitle'));
     }
