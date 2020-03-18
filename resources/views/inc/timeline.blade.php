@@ -7,10 +7,12 @@
                         <div class="timeline">
                             <div class="timeline-icon"></div>
                             <div class="timeline-content">
-                                <span class="date" style="padding-left:0px;">{{ \Carbon\Carbon::parse($entry->updated_at)->format('l jS F Y (h:m:s)') }}</span>
+                                <span class="date" style="padding-left:0px;">{{ $entry->time_since }}...</span>
+
                                 <p class="description">
                                     {!! $entry->message !!}
                                 </p>
+                                <span class="date-small">{{ $entry->pretty_date }}</span>
                             </div>
                         </div>
                         <?php $count++; ?>
@@ -22,9 +24,6 @@
                             </script>
                         @endpush
                     @endif
-
-
-
             </div>
         </div>
     </div>

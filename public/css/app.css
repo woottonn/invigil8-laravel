@@ -1722,6 +1722,11 @@ password {
   margin-right: 1px;
 }
 
+.date-small {
+  color: #ccc;
+  font-size: 12px;
+}
+
 .main-timeline {
   overflow: hidden;
   position: relative;

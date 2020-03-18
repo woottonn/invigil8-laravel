@@ -113,7 +113,11 @@
 
                                         <span title="
                                             @if($lead_invigilators[$index-1]->author_id==$lead_invigilators[$index-1]->user_id)
-                                              This user signed up to this exam
+                                                @if(auth()->user()->id==$lead_invigilators[$index-1]->user_id)
+                                                    You signed up to this exam
+                                                @else
+                                                    This user signed up to this exam
+                                                @endif
                                             @else
                                               This user was manually assigned by the admin
                                             @endif
@@ -235,10 +239,14 @@
 
                                         <span title="
                                             @if($invigilators[$index-1]->author_id==$invigilators[$index-1]->user_id)
-                                            This user signed up to this exam
-                                        @else
-                                            This user was manually assigned by the admin
-                                        @endif
+                                                @if(auth()->user()->id==$invigilators[$index-1]->user_id)
+                                                    You signed up to this exam
+                                                @else
+                                                    This user signed up to this exam
+                                                @endif
+                                            @else
+                                                This user was manually assigned by the admin
+                                            @endif
                                             " data-toggle="tooltip" data-placement="bottom" rel="tooltip">
                                             @if($invigilators[$index-1]->author_id==$invigilators[$index-1]->user_id)
                                                 <i class="fa fa-user"></i>
