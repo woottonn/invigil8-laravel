@@ -31,7 +31,7 @@
                 'actions' => true
              ],
             'headers' => [
-                'title' => true,
+                'title' => $user->firstname.'\'s registered exams',
                 'subtitle' => 'A list of '.$user->firstname.'\'s registered exams'
             ],
             'filter' => [

@@ -8,6 +8,8 @@
                             <h4>
                                 @if(!session('centre'))
                                     All Centres
+                                @elseif(@$headers['title'])
+                                    {{$headers['title']}}
                                 @else
                                     {{session('centre')->name}}
                                 @endif
@@ -107,7 +109,7 @@
                                         @if(@$tableheaders['description'])
                                             <td style="min-width: 110px;">
                                                 @can('EXAMS-view')
-                                                    <a href="{{route('exams.show', [$exam])}}" data-toggle="tooltip" data-placement="bottom" rel="tooltip" title="Open the exam to view more details">{{ $exam->description }}</a> @else <strong>{{ $exam->description }}</strong> @endcan <span class="d-block d-sm-block d-md-block d-lg-none d-xl-none">
+                                                    <a href="{{route('exams.show', [$exam])}}" data-toggle="tooltip" data-placement="bottom" rel="tooltip" title="View exam &amp invigilators">{{ $exam->description }}</a> @else <strong>{{ $exam->description }}</strong> @endcan <span class="d-block d-sm-block d-md-block d-lg-none d-xl-none">
                                                     <strong>{{ $exam->location->name }}</strong><br>
                                                 </span>
                                             </td>
