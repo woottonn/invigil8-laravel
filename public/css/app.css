@@ -1727,6 +1727,10 @@ password {
   font-size: 12px;
 }
 
+.dropdown-menu {
+  margin-top: 0 !important;
+}
+
 .main-timeline {
   overflow: hidden;
   position: relative;

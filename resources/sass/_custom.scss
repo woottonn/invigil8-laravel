@@ -819,7 +819,7 @@ input, select, email, password{
 
 .hide_names{
     height: 0;
-    width:0;
+    width: 0;
     overflow: hidden;
 }
 
@@ -831,4 +831,8 @@ input, select, email, password{
 .date-small{
     color: #ccc;
     font-size: 12px;
+}
+
+.dropdown-menu {
+    margin-top: 0 !important;
 }
