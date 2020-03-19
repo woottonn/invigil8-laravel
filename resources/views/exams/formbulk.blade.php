@@ -29,12 +29,12 @@
                 </th>
                 <td>
                     <div class="form-group">
-                        <input placeholder="Description" type="text" maxlength="255" required class="form{{ $index }} form-control @error('description.'.$i) is-invalid @enderror" name="description[{{ $index }}]" value="{{ old('description.'.$i) ?? '' }}">
+                        <input placeholder="Description" type="text" maxlength="255" class="form{{ $index }} form-control @error('description.'.$i) is-invalid  error-pulse @enderror" name="description[{{ $index }}]" value="{{ old('description.'.$i) ?? '' }}">
                     </div>
                 </td>
                 <td>
                     <div class="form-group">
-                        <select class="form{{ $index }} form-control @error('exam_location_id.'.$i) is-invalid @enderror" id="exam_location_id{{ $index }}" name="exam_location_id[{{ $index }}]">
+                        <select class="form{{ $index }} form-control @error('exam_location_id.'.$i) is-invalid  error-pulse @enderror" id="exam_location_id{{ $index }}" name="exam_location_id[{{ $index }}]">
                             @if(!$locations->isEmpty())
                                 @foreach($locations as $location)
                                     <option value="{{ $location->id }}"
@@ -53,32 +53,32 @@
                 </td>
                 <td>
                     <div class="form-group">
-                        <input type="datetime-local" max="{{ config('sitevars.seasons')[session('season')->name]['date_end'] }}T23:59" min="{{ config('sitevars.seasons')[session('season')->name]['date_start'] }}T00:00" class="form{{ $index }} form-control @error('date.'.$i) is-invalid @enderror" name="date[{{ $index }}]" value="{{ old('date.'.$i) ?? '' }}">
+                        <input type="datetime-local" max="{{ config('sitevars.seasons')[session('season')->name]['date_end'] }}T23:59" min="{{ config('sitevars.seasons')[session('season')->name]['date_start'] }}T00:00" class="form{{ $index }} form-control @error('date.'.$i) is-invalid  error-pulse  @enderror" name="date[{{ $index }}]" value="{{ old('date.'.$i) ?? '' }}">
                     </div>
                 </td>
                 <td>
                     <div class="form-group">
-                        <input type="text" style="width:65px;" readonly id="duration{{ $index }}" class="form{{ $index }} form-control @error('duration.'.$i) is-invalid @enderror" name="duration[{{ $index }}]" value="{{ old('duration.'.$i) ?? '' }}">
+                        <input type="text" style="width:65px;" readonly id="duration{{ $index }}" class="form{{ $index }} form-control @error('duration.'.$i) is-invalid  error-pulse @enderror" name="duration[{{ $index }}]" value="{{ old('duration.'.$i) ?? '' }}">
                     </div>
                 </td>
                 <td>
                     <div class="form-group">
-                        <input placeholder="Students #" type="number" max="20000" class="form{{ $index }} form-control @error('students.'.$i) is-invalid @enderror" name="students[{{ $index }}]" value="{{ old('students.'.$i) ?? '' }}">
+                        <input placeholder="Students #" type="number" max="20000" class="form{{ $index }} form-control @error('students.'.$i) is-invalid  error-pulse @enderror" name="students[{{ $index }}]" value="{{ old('students.'.$i) ?? '' }}">
                     </div>
                 </td>
                 <td>
                     <div class="form-group">
-                        <input placeholder="Lead #" type="number" max="100" class="form{{ $index }} form-control @error('invigilators_lead_req.'.$i) is-invalid @enderror" name="invigilators_lead_req[{{ $index }}]" value="{{ old('invigilators_lead_req.'.$i) ?? '' }}">
+                        <input placeholder="Lead #" type="number" max="100" class="form{{ $index }} form-control @error('invigilators_lead_req.'.$i) is-invalid  error-pulse @enderror" name="invigilators_lead_req[{{ $index }}]" value="{{ old('invigilators_lead_req.'.$i) ?? '' }}">
                     </div>
                 </td>
                 <td>
                     <div class="form-group">
-                        <input placeholder="Extra #" type="number" max="100" class="form{{ $index }} form-control @error('invigilators_req.'.$i) is-invalid @enderror" name="invigilators_req[{{ $index }}]" value="{{ old('invigilators_req.'.$i) ?? '' }}">
+                        <input placeholder="Extra #" type="number" max="100" class="form{{ $index }} form-control @error('invigilators_req.'.$i) is-invalid  error-pulse @enderror" name="invigilators_req[{{ $index }}]" value="{{ old('invigilators_req.'.$i) ?? '' }}">
                     </div>
                 </td>
                 <td>
                     <div class="form-group">
-                        <select class="form{{ $index }} form-control @error('hide_names.'.$i) is-invalid @enderror" id="hide_names{{$index}}" name="hide_names[{{ $index }}]">
+                        <select class="form{{ $index }} form-control @error('hide_names.'.$i) is-invalid  error-pulse @enderror" id="hide_names{{$index}}" name="hide_names[{{ $index }}]">
                             <option value="1" @if(@old('hide_names.'.$i)==1) selected @endif>Yes</option>
                             <option value="0" @if(@old('hide_names.'.$i)==0) selected @endif>No</option>
                         </select>
@@ -86,12 +86,12 @@
                 </td>
                 <td>
                     <div class="form-group">
-                        <input placeholder="Notes" type="input" class="form{{ $index }} form-control @error('notes.'.$i) is-invalid @enderror" name="notes[{{ $index }}]" value="{{ old('notes.'.$i) ?? '' }}">
+                        <input placeholder="Notes" type="input" class="form{{ $index }} form-control @error('notes.'.$i) is-invalid error-pulse @enderror" name="notes[{{ $index }}]" value="{{ old('notes.'.$i) ?? '' }}">
                     </div>
                 </td>
                 <td>
                     <div class="form-group">
-                        <select class="form{{ $index }} form-control @error('state.'.$i)) is-invalid @enderror" id="state{{ $index }}" name="state[{{ $index }}]">
+                        <select class="form{{ $index }} form-control @error('state.'.$i)) is-invalid error-pulse @enderror" id="state{{ $index }}" name="state[{{ $index }}]">
                             <option value="0" @if(@old('state.'.$i)==0) selected @endif>Draft (Invisible to invigilators)</option>
                             <option value="1" @if(@old('state.'.$i)==1) selected @endif>Live (Visible to invigilators)</option>
                         </select>
@@ -178,38 +178,46 @@
 
 @endforeach
 
-@foreach(range(1,21) as $index)
+@if(@old('total'))
+    @foreach(range(1,old('total')) as $index)
 
-    @if((old('description.'.$index))!==null)
+        console.log('here');
         $next = {{$index + 1}};
+        $prev = {{$index - 1}};
         $eq = {{$index - 1}};
         $this = {{$index}}
-        console.log('hey');
+
         $("#include" + $this).prop('checked',true);
         $(".form" + $this).removeAttr('disabled').css('opacity', 1.0);
-        $('#include' + $next).removeAttr("disabled").css('opacity', 1, function(){ console.log('egeg'); });
+        $('#include' + $next).attr("disabled","disabled").css('opacity', 1);
         $(".select2-selection:eq(" + $eq + ")").css('opacity', 1);
 
-    @endif
-
-@endforeach
+    @endforeach
+    $('#include' + $next).removeAttr("disabled").css('opacity', 1);
+@endif
 
 
     //Handle checkbox disables
     $('.include').click(function (e) {
-        $('#total').val($('.include[type="checkbox"]:checked').length); //Count checkboxes
+        if($('#include1').val()==='1') {
+            $('#total').val($('.include[type="checkbox"]:checked').length); //Count checkboxes
+        }else{
+            $('#total').val(0);
+        }
 
         $this = parseInt($(this).attr('data-include'));
         $next = parseInt($(this).attr('data-include')) + 1;
+        $prev = parseInt($(this).attr('data-include')) - 1;
         $eq = parseInt($(this).attr('data-include')) - 1;
 
         if($(this).is(':checked')) {
-
+            $("#include" + $prev).attr('disabled','disabled');
             $('#include' + $next).removeAttr("disabled").css('opacity', 1);
             $('.form' + $this).removeAttr("disabled").css('opacity', 1);
             $(".select2-selection:eq(" + $eq + ")").css('opacity', 1);
 
         }else{
+            $("#include" + $prev).removeAttr('disabled');
             $('.form' + $this).attr("disabled", "disabled").css('opacity', 0.5);
             $('#include' + $next).attr("disabled", "disabled").css('opacity', 0.5);
             $('#include' + $this).removeAttr("disabled").css('opacity', 1);
@@ -217,6 +225,12 @@
 
         }
     });
+
+    @if(@$errors->all())
+        $('html, body').animate({
+            scrollTop: $('.is-invalid:visible:first').offset().top  - 250
+        }, 1);
+    @endif
 
 
 </script>

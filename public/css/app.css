@@ -1731,6 +1731,46 @@ password {
   margin-top: 0 !important;
 }
 
+.error-pulse {
+  background-color: #ffebc0;
+  -webkit-animation-name: error;
+          animation-name: error;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-iteration-count: 3;
+          animation-iteration-count: 3;
+}
+
+@-webkit-keyframes error {
+  0% {
+    background-color: #ffebc0;
+  }
+
+  50% {
+    background-color: #ffa9a9;
+    color: #fff !important;
+  }
+
+  100% {
+    background-color: #ffebc0;
+  }
+}
+
+@keyframes error {
+  0% {
+    background-color: #ffebc0;
+  }
+
+  50% {
+    background-color: #ffa9a9;
+    color: #fff !important;
+  }
+
+  100% {
+    background-color: #ffebc0;
+  }
+}
+
 .main-timeline {
   overflow: hidden;
   position: relative;

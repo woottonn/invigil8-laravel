@@ -836,3 +836,23 @@ input, select, email, password{
 .dropdown-menu {
     margin-top: 0 !important;
 }
+
+.error-pulse{
+    background-color: #ffebc0;
+    animation-name: error;
+    animation-duration: 0.5s;
+    animation-iteration-count: 3;
+}
+
+@keyframes error {
+    0% {
+        background-color: #ffebc0;
+    }
+    50% {
+        background-color: #ffa9a9;
+        color: #fff !important;
+    }
+    100% {
+    background-color: #ffebc0;
+    }
+}
