@@ -70,7 +70,7 @@
     transform: translate(-50%, -50%);
     transition: background-color 0.2s ease 0s;
 }
-.main-timeline .timeline:hover .timeline-icon:before{ background: #39b3ff; }
+.main-timeline .timeline:hover .timeline-icon:before{ background: #3182ce; }
 .main-timeline .timeline-content{
     width: 85%;
     padding: 5px 18px;
@@ -100,8 +100,8 @@
     transition: all 0.2s ease 0s;
 }
 .main-timeline .timeline:hover .timeline-content:before{
-    background: #39b3ff;
-    border-color: #39b3ff;
+    background: #3182ce;
+    border-color: #3182ce;
 }
 .main-timeline .timeline-content:after{
     content: "";
@@ -116,7 +116,7 @@
     display: block;
     font-size: 13px;
     font-weight: 600;
-    color: #39b3ff;
+    color: #3182ce;
     margin: 0 0 2px;
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
@@ -128,7 +128,7 @@
     margin-top: 0;
     transition: all 0.3s ease 0s;
 }
-.main-timeline .timeline:hover .title{ color: #39b3ff; }
+.main-timeline .timeline:hover .title{ color: #3182ce; }
 .main-timeline .description{
     font-size: 14px;
     color: #555;
@@ -167,4 +167,12 @@
     }
     .main-timeline .timeline-content:before{ left: -7.3px; }
     .main-timeline .timeline-content:after{ left: -14%; }
+}
+
+.timeline a{
+    color: #3182ce !important;
+}
+
+.timeline a:hover{
+    color: #00123c !important;
 }

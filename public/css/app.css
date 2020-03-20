@@ -1857,7 +1857,7 @@ password {
 }
 
 .main-timeline .timeline:hover .timeline-icon:before {
-  background: #39b3ff;
+  background: #3182ce;
 }
 
 .main-timeline .timeline-content {
@@ -1894,8 +1894,8 @@ password {
 }
 
 .main-timeline .timeline:hover .timeline-content:before {
-  background: #39b3ff;
-  border-color: #39b3ff;
+  background: #3182ce;
+  border-color: #3182ce;
 }
 
 .main-timeline .timeline-content:after {
@@ -1912,7 +1912,7 @@ password {
   display: block;
   font-size: 13px;
   font-weight: 600;
-  color: #39b3ff;
+  color: #3182ce;
   margin: 0 0 2px;
   -webkit-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
@@ -1931,7 +1931,7 @@ password {
 }
 
 .main-timeline .timeline:hover .title {
-  color: #39b3ff;
+  color: #3182ce;
 }
 
 .main-timeline .description {
@@ -1998,6 +1998,14 @@ password {
   .main-timeline .timeline-content:after {
     left: -14%;
   }
+}
+
+.timeline a {
+  color: #3182ce !important;
+}
+
+.timeline a:hover {
+  color: #00123c !important;
 }
 
 /*!
