@@ -15,7 +15,7 @@
                 'students' => true,
              ],
             'headers' => [
-                'title' => true,
+                'title' => @session('centre')->name ?? 'All',
                 'subtitle' => 'A list of exams'
             ],
             'filter' => [
