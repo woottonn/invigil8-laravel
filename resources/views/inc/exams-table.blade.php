@@ -154,15 +154,15 @@
                                         @if(@$tableheaders['invigilators_lead_req'])
                                             <td>
                                                 @if($exam->lead_full)
-                                                    <span class="badge" style="font-size:13px;background-color:#006802;color:#fff;font-weight:normal"
+                                                    <span class="badge" style="font-size:13px;background-color:#006802;color:#fff;font-weight:normal;cursor:help"
                                                           @if(($exam->hide_names!==1||auth()->user()->can('EXAMS-edit'))&&$exam->participations_lead()->count() > 0)
                                                           data-toggle="tooltip" data-html="true" data-placement="bottom" rel="tooltip" title="
                                                                     @foreach($exam->participations_lead() as $participation)
                                                                         &bull;&nbsp;{{ App\User::withTrashed()->where('id', $participation->user_id)->first()->full_name }}
-                                                    @endforeach
+                                                                    @endforeach
                                                         "
                                                           @endif
-                                                    > {{$exam->participations_lead()->count()}}/{{$exam->invigilators_lead_req ?? '0'}}</span>@else<span class="badge" style="font-size:13px;background-color:#d68300;color:#fff;font-weight:normal"
+                                                    > {{$exam->participations_lead()->count()}}/{{$exam->invigilators_lead_req ?? '0'}}</span>@else<span class="badge" style="font-size:13px;background-color:#d68300;color:#fff;font-weight:normal;cursor:help"
                                                           @if(($exam->hide_names!==1||auth()->user()->can('EXAMS-edit'))&&$exam->participations_lead()->count() > 0)
                                                               data-toggle="tooltip" data-html="true" data-placement="bottom" rel="tooltip" title="
                                                                     @foreach($exam->participations_lead() as $participation)
@@ -177,7 +177,7 @@
                                         @if(@$tableheaders['invigilators_req'])
                                             <td>
                                                 @if($exam->extra_full)
-                                                    <span class="badge" style="font-size:13px;background-color:#006802;color:#fff;font-weight:normal"
+                                                    <span class="badge" style="font-size:13px;background-color:#006802;color:#fff;font-weight:normal;cursor:help"
                                                           @if(($exam->hide_names!==1||auth()->user()->can('EXAMS-edit'))&&$exam->participations_extra()->count() > 0)
                                                           data-toggle="tooltip" data-html="true" data-placement="bottom" rel="tooltip" title="
                                                                     @foreach($exam->participations_extra() as $participation)
@@ -186,7 +186,7 @@
                                                         "
                                                           @endif
                                                     >{{$exam->participations_extra()->count()}}/{{$exam->invigilators_req ?? '0'}}
-                                                    </span>@else<span class="badge" style="font-size:13px;background-color:#d68300;color:#fff;font-weight:normal"
+                                                    </span>@else<span class="badge" style="font-size:13px;background-color:#d68300;color:#fff;font-weight:normal;cursor:help"
                                                           @if(($exam->hide_names!==1||auth()->user()->can('EXAMS-edit'))&&$exam->participations_extra()->count() > 0)
                                                           data-toggle="tooltip" data-html="true" data-placement="bottom" rel="tooltip" title="
                                                                     @foreach($exam->participations_extra() as $participation)
@@ -235,7 +235,7 @@
                                                     </div>
                                                 @else
                                                     @if($exam->invigilator_check(auth()->user()->id))
-                                                        <div class="invigilator_me" style="height:auto !important;margin-bottom:0">
+                                                        <div class="invigilator_me" style="height:auto !important;margin-bottom:0;cursor:pointer">
                                                             Registered
                                                         </div>
                                                     @else

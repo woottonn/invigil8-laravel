@@ -1566,6 +1566,7 @@ password {
   color: #fff;
   cursor: pointer;
   width: 100%;
+  text-decoration: none !important;
 }
 
 .invigilator_greyed {
