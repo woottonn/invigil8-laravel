@@ -192,10 +192,13 @@ class ExamsController extends Controller
             'date.date' => 'Please enter a valid date',
             'duration.required' => 'Please enter a duration',
             'duration.date_format:H:i' => 'Please enter a valid duration',
+            'invigilators_lead_req.*' => 'This must be an integer from 0-99',
+            'invigilators_req.*' => 'This must be an integer from 0-99',
+            'students.*' => 'This must be an integer starting from 0',
         ]);
 
         $exam = new Exam;
-        $exam->description = $request->description;
+        $exam->description = $request->deschription;
         $exam->date = date('Y-m-d H:i:s', strtotime($request->date));
         $exam->duration = date('H:i:s', strtotime($request->duration));
         $exam->author_id = auth()->user()->id;

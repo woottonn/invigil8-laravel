@@ -1085,6 +1085,7 @@ input[type=number]:focus,
   border-color: #002557;
   outline: 0;
   box-shadow: inset 0 1px 1px #c1faef, 0 0 8px #002557 !important;
+  padding-right: 5px !important;
 }
 
 .page-item.active .page-link {
@@ -1534,6 +1535,7 @@ email,
 password {
   background: #ffebc0 !important;
   color: #002557 !important;
+  padding-right: 5px !important;
 }
 
 .select2-selection {
@@ -1735,10 +1737,10 @@ password {
   background-color: #ffebc0;
   -webkit-animation-name: error;
           animation-name: error;
-  -webkit-animation-duration: 0.5s;
-          animation-duration: 0.5s;
-  -webkit-animation-iteration-count: 3;
-          animation-iteration-count: 3;
+  -webkit-animation-duration: 0.3s;
+          animation-duration: 0.3s;
+  -webkit-animation-iteration-count: 6;
+          animation-iteration-count: 6;
 }
 
 @-webkit-keyframes error {

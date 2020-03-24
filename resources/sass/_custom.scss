@@ -259,6 +259,7 @@ input[type=number]:focus,
     border-color: $custom-color;
     outline: 0;
     box-shadow: inset 0 1px 1px #c1faef,0 0 8px $custom-color !important;
+    padding-right: 5px !important;
 }
 
 .page-item.active .page-link {
@@ -647,6 +648,7 @@ div.dt-buttons {
 input, select, email, password{
     background: $custom-form-bg-color !important;
     color: $custom-color !important;
+    padding-right: 5px !important;
 }
 
 .select2-selection{
@@ -840,8 +842,8 @@ input, select, email, password{
 .error-pulse{
     background-color: #ffebc0;
     animation-name: error;
-    animation-duration: 0.5s;
-    animation-iteration-count: 3;
+    animation-duration: 0.3s;
+    animation-iteration-count: 6;
 }
 
 @keyframes error {
