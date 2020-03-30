@@ -1783,6 +1783,10 @@ password {
           transform: translateY(-50%);
 }
 
+.vc-bg-red-600 {
+  background-color: #b85252 !important;
+}
+
 .main-timeline {
   overflow: hidden;
   position: relative;

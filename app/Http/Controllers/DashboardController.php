@@ -148,21 +148,24 @@ class DashboardController extends Controller
         $data = [];
 
         foreach($exams as $exam){
+            if($exam->state==0){
+                $highlight = 'red';
+                $registered =  ' (Draft)';
+            }else{
+                $highlight = 'blue';
+                $registered =  ' (Live)';
+            }
             $new_exam =
                 array(
                     'customData' => array(
                         'id' => $exam->id
                     ),
-                    'highlight'=> array(
-                        'backgroundColor' => "#000"
+                    'bar' => $highlight,
+                    'popover' => array(
+                        'label' => $exam->description . ' - ' . $exam->pretty_time . ' - ' . $exam->pretty_duration . ' - ' . $exam->location->name . @$registered,
                     ),
-                    'popover'=> array(
-                        'label' => $exam->description . ' - ' . $exam->pretty_time . ' - ' . $exam->pretty_duration . ' - ' . $exam->location->name,
-                    ),
-                    'dates'=> array(
-                        'start' => $exam->date,
-                        'end' => $exam->date,
-                    ),
+                    'dates' => $exam->date,
+
                 );
             array_push($data, $new_exam);
         }
@@ -198,21 +201,24 @@ class DashboardController extends Controller
         $data = [];
 
         foreach($exams as $exam){
+            if($exam->state==0){
+                $highlight = 'red';
+                $registered =  ' (Draft)';
+            }else{
+                $highlight = 'blue';
+                $registered =  ' (Live)';
+            }
             $new_exam =
                 array(
                     'customData' => array(
                         'id' => $exam->id
                     ),
-                    'highlight'=> array(
-                        'backgroundColor' => "#000"
+                    'bar' => $highlight,
+                    'popover' => array(
+                        'label' => $exam->description . ' - ' . $exam->pretty_time . ' - ' . $exam->pretty_duration . ' - ' . $exam->location->name . @$registered,
                     ),
-                    'popover'=> array(
-                        'label' => $exam->description . ' - ' . $exam->pretty_time . ' - ' . $exam->pretty_duration . ' - ' . $exam->location->name,
-                    ),
-                    'dates'=> array(
-                        'start' => $exam->date,
-                        'end' => $exam->date,
-                    ),
+                    'dates' => $exam->date,
+
                 );
             array_push($data, $new_exam);
         }

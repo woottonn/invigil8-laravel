@@ -54,4 +54,3 @@ Route::get('mail/exam-added', 'MailController@exam_add');
 Auth::routes();
 
 
-
