@@ -67,8 +67,10 @@
                         $('.vc-container').css('opacity', '0.2');
                     }
                 }else{
-                    if(day.popovers) {
+                    if(day.popovers.length > 1) {
                         window.location.href = '/exams/?date=' + encodeURI(day.id);
+                    }else if(day.popovers.length === 1){
+                        window.location.href = '/exams/' + encodeURI(day.popovers[0].customData.id);
                     }
                 }
             },

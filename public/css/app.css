@@ -1774,6 +1774,15 @@ password {
   }
 }
 
+.page-error {
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
 .main-timeline {
   overflow: hidden;
   position: relative;

@@ -377,7 +377,6 @@
                         @role('Invigilator') 9 @endrole
                     ]; // Our date column in the table
 
-                    console.log(min);
 
                     if (
                         (min == "" || max == "") ||

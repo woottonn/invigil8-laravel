@@ -859,3 +859,11 @@ input, select, email, password{
     background-color: #ffebc0;
     }
 }
+
+.page-error{
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+}

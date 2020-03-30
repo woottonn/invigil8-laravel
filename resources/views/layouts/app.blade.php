@@ -1,5 +1,5 @@
 @if(!Request::is('login')&&!Request::is('cookie-policy')&&!Request::is('password/*')&&!Request::is('/'))
-    <?php if(@!session('season')->name){ dd(1); Auth::logout(); return route('login'); } ?>
+    <?php if(@!session('season')->name){  Auth::logout(); return route('login'); } ?>
 @endif
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
