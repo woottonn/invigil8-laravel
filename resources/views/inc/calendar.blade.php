@@ -28,8 +28,11 @@ foreach($exams as $exam){
     if(App\Participation::where('exam_id', $exam->id)->where('user_id', auth()->user()->id)->exists()){
         $highlight = 'orange';
         $registered =  ' (Registered)';
-    }else{
+    }elseif($exam->state==1){
         $highlight = 'blue';
+        $registered =  '';
+    }else{
+        $highlight = 'red';
         $registered =  '';
     }
     $new_exam =
