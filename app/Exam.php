@@ -95,6 +95,13 @@ class Exam extends Model
         return substr($this->duration, 0, -3);
     }
 
+    public function getLiveAttribute()
+    {
+        if($this->state==1){
+            return TRUE;
+        }
+    }
+
     public function getPrettyDateAttribute()
     {
         return Carbon::parse($this->date)->format('l jS F Y (g:ia)');
