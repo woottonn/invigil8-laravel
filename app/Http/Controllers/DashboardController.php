@@ -148,12 +148,12 @@ class DashboardController extends Controller
         $data = [];
 
         foreach($exams as $exam){
-            if($exam->state==0){
-                $highlight = 'red';
-                $registered =  ' (Draft)';
-            }else{
+            if($exam->live){
                 $highlight = 'blue';
                 $registered =  ' (Live)';
+            }else{
+                $highlight = 'red';
+                $registered =  ' (Draft)';
             }
             $new_exam =
                 array(

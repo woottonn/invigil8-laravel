@@ -97,9 +97,8 @@ class Exam extends Model
 
     public function getLiveAttribute()
     {
-        if($this->state==1){
-            return TRUE;
-        }
+        if($this->state == 1) return true;
+
     }
 
     public function getPrettyDateAttribute()
