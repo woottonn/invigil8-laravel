@@ -13380,3 +13380,6 @@ a.text-dark:focus {
   }
 }
 
+.vc-text-gray-500 {
+    color: #003672 !important;
+}
