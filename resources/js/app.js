@@ -6,7 +6,7 @@
 
 require('./bootstrap');
 require('select2/dist/js/select2');
-require('chart.js/dist/Chart.min.js');
+//require('chart.js/dist/Chart.min.js');
 require('datatables.net');
 require('datatables.net-bs4');
 require('datatables.net-responsive');
@@ -25,9 +25,9 @@ window.JSZip = jsZip;
 window.Vue = require('vue');
 window.moment = require('moment');
 
-import Vue from 'vue'
+import Vue from 'vue';
 import VCalendar from 'v-calendar';
-import Calendar from 'v-calendar/lib/components/calendar.umd'
+import Calendar from 'v-calendar/lib/components/calendar.umd';
 
 // Use v-calendar & v-date-picker components
 Vue.use(VCalendar);
@@ -38,6 +38,8 @@ const app = new Vue({
 });
 
 
+Vue.config.devtools=false; // hide console message
+Vue.config.productionTip = false; // hide console message
 
 
 
