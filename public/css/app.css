@@ -1787,6 +1787,10 @@ password {
   background-color: #b85252 !important;
 }
 
+.vc-text-gray-500 {
+  color: #20a7bf !important;
+}
+
 .main-timeline {
   overflow: hidden;
   position: relative;
