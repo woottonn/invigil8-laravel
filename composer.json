@@ -20,7 +20,6 @@
         "spatie/laravel-cookie-consent": "^2.11",
         "spatie/laravel-permission": "^3.3",
         "staudenmeir/eloquent-has-many-deep": "^1.11",
-        "ext-http": "*"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
