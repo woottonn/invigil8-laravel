@@ -38,8 +38,8 @@ const app = new Vue({
 });
 
 
-Vue.config.devtools=false; // hide console message
-Vue.config.productionTip = false; // hide console message
+Vue.config.devtools=false; // hide console messages
+Vue.config.productionTip = false; // hide console messages
 
 
 

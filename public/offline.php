@@ -30,7 +30,7 @@
 </head>
 
 <body>
-<div class="center-div"><img src="img/icon.png" style="width:100px"><br><div style="margin-top:15px;">Internet connection lost. Please try again.
+<div class="center-div"><div style="margin-top:15px;">Internet connection lost. Please try again.
         <br><br>
         <a href="#" onclick="window.location.reload(true);" style="color:#29a9bf;text-decoration:none">Click here to reload</a></div></div>
 </body>
