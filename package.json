@@ -35,7 +35,7 @@
         "audio": "^1.2.0",
         "chart.js": "^2.9.3",
         "datatables-buttons": "^1.0.3",
-        "datatables.net": "^1.10.20",
+        "datatables.net": "^1.10.22",
         "datatables.net-bs4": "^1.10.20",
         "datatables.net-buttons": "^1.6.1",
         "datatables.net-responsive": "^2.2.3",
