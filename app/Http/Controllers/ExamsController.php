@@ -198,7 +198,7 @@ class ExamsController extends Controller
         ]);
 
         $exam = new Exam;
-        $exam->description = $request->deschription;
+        $exam->description = $request->description;
         $exam->date = date('Y-m-d H:i:s', strtotime($request->date));
         $exam->duration = date('H:i:s', strtotime($request->duration));
         $exam->author_id = auth()->user()->id;
