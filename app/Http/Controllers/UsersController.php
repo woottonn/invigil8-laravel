@@ -142,9 +142,11 @@ class UsersController extends Controller
         //Check if someone is trying to circumvent the roles and add a superadmin
         if(!empty($request->roles)){
                 if(auth()->user()->hasRole('Super Admin')){}else{
-                    if(Role::findById($role)->name=="Super Admin"){
-                        return redirect()->route('users.index')->with('error', 'Cheeky!');
-                 }
+                    foreach($request->roles as $role) {
+                        if (Role::findById($role)->name == "Super Admin") {
+                            return redirect()->route('users.index')->with('error', 'Cheeky!');
+                        }
+                    }
             }
         }
         //End check
