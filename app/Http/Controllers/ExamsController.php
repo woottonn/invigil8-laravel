@@ -219,7 +219,7 @@ class ExamsController extends Controller
         }
 
         if($request->email==1){
-            foreach (User::role('Invigilator')->where('lastname', 'Wootton')->where('centre_id', session('centre')->id)->get() as $user){
+            foreach (User::role('Invigilator')->where('centre_id', session('centre')->id)->get() as $user){
                 $mail = new \stdClass();
                 $mail->firstname = $user->firstname;
                 $mail->name = $exam->description;
@@ -443,7 +443,7 @@ class ExamsController extends Controller
         }
 
         if($request->email==1){
-            foreach (User::role('Invigilator')->where('lastname', 'Wootton')->where('centre_id', session('centre')->id)->get() as $user){
+            foreach (User::role('Invigilator')->where('centre_id', session('centre')->id)->get() as $user){
                 $mail = new \stdClass();
                 $mail->firstname = $user->firstname;
                 $mail->name = $exam->description;
