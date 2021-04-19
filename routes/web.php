@@ -14,8 +14,8 @@
 use Illuminate\Support\Facades\Auth;
 
 //Other
-Route::get('/', 'PagesController@index');
-Route::get('/home', 'PagesController@index')->name('home');
+Route::get('/', 'PagesController@index')->name('home');
+Route::get('/home', 'PagesController@index');
 Route::get('/logout-force', 'PagesController@logoutforce')->name('logout-force');
 Route::get('/cookie-policy', 'PagesController@cookies')->name('cookies');
 Route::get('/exams/today', 'ExamsController@today')->name('exams.today');

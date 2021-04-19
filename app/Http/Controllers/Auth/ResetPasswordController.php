@@ -40,6 +40,7 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetResponse(Request $request, $response)
     {
+        //dd(1);
         $user = $this->guard()->user();
 
         session(['api_token' => $user->api_token]);
