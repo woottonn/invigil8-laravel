@@ -30,7 +30,10 @@
 
             @role('Invigilator')
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('exams.index') }}">Exams</a>
+                    <a class="nav-link" href="{{ route('exams.index') }}">All Exams</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('exams.index', ['user_id' => Auth::user()->id])}}">My Exams</a>
                 </li>
             @endrole
 
@@ -73,9 +76,6 @@
                 @endrole
             </a>
 
-            @role('Student')
-                <a class="dropdown-item" href="{{ route('qr') }}">My QR Code</a>
-            @endrole
 
             <a class="dropdown-item" href="{{ route('cookies') }}">Privacy &amp; Cookie Policy</a>
 
