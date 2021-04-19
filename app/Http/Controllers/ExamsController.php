@@ -444,7 +444,7 @@ class ExamsController extends Controller
         }
 
         if($request->email==1){
-            if($exam->state==0&&$request->state==1){
+            if($exam->state==0&&$request->state==1){ //show exam as live
                 foreach (User::role('Invigilator')->where('centre_id', session('centre')->id)->get() as $user) {
                     $mail = new \stdClass();
                     $mail->firstname = $user->firstname;
@@ -460,7 +460,9 @@ class ExamsController extends Controller
                     Mail::to($user->email)->send(new DefaultEmailExamLive($mail));
                 }
             }else{
-                foreach (User::role('Invigilator')->where('centre_id', session('centre')->id)->get() as $user) {
+                foreach (Participation::where('exam_id', $exam->id)->get() as $participation){
+                    $user = User::find($participation->user_id);
+
                     $mail = new \stdClass();
                     $mail->firstname = $user->firstname;
                     $mail->name = $exam->description;
