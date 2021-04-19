@@ -11,6 +11,7 @@ use App\Charts\ChartsActivityTypes\PieParticipations;
 use App\Charts\ChartsActivityTypes\PieSessions;
 use App\Mail\DefaultEmail;
 use App\Mail\DefaultEmailExamDelete;
+use App\Mail\DefaultEmailExamLive;
 use App\Mail\DefaultEmailExamUpdate;
 use App\Participation;
 use App\Exam;
@@ -443,19 +444,36 @@ class ExamsController extends Controller
         }
 
         if($request->email==1){
-            foreach (User::role('Invigilator')->where('centre_id', session('centre')->id)->get() as $user){
-                $mail = new \stdClass();
-                $mail->firstname = $user->firstname;
-                $mail->name = $exam->description;
-                $mail->id = $exam->id;
-                $mail->date = $exam->pretty_date;
-                $mail->duration = $exam->pretty_duration;
-                $mail->location = $exam->location->name;
-                $mail->centre_name = Centre::find($exam->centre_id)->name;
-                $mail->lead = $exam->invigilators_lead_req;
-                $mail->extra = $exam->invigilators_req;
-                $mail->changes = $changes;
-                Mail::to($user->email)->send(new DefaultEmailExamUpdate($mail));
+            if($exam->state==0&&$request->state==1){
+                foreach (User::role('Invigilator')->where('centre_id', session('centre')->id)->get() as $user) {
+                    $mail = new \stdClass();
+                    $mail->firstname = $user->firstname;
+                    $mail->name = $exam->description;
+                    $mail->id = $exam->id;
+                    $mail->date = $exam->pretty_date;
+                    $mail->duration = $exam->pretty_duration;
+                    $mail->location = $exam->location->name;
+                    $mail->centre_name = Centre::find($exam->centre_id)->name;
+                    $mail->lead = $exam->invigilators_lead_req;
+                    $mail->extra = $exam->invigilators_req;
+                    $mail->changes = $changes;
+                    Mail::to($user->email)->send(new DefaultEmailExamLive($mail));
+                }
+            }else{
+                foreach (User::role('Invigilator')->where('centre_id', session('centre')->id)->get() as $user) {
+                    $mail = new \stdClass();
+                    $mail->firstname = $user->firstname;
+                    $mail->name = $exam->description;
+                    $mail->id = $exam->id;
+                    $mail->date = $exam->pretty_date;
+                    $mail->duration = $exam->pretty_duration;
+                    $mail->location = $exam->location->name;
+                    $mail->centre_name = Centre::find($exam->centre_id)->name;
+                    $mail->lead = $exam->invigilators_lead_req;
+                    $mail->extra = $exam->invigilators_req;
+                    $mail->changes = $changes;
+                    Mail::to($user->email)->send(new DefaultEmailExamUpdate($mail));
+                }
             }
         }
 
