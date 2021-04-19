@@ -274,7 +274,7 @@
 
         $(document).ready(function() {
             var otable = $('#exams').DataTable({
-                "order": [[@role('Super Admin') 2 @else 1 @endrole, "desc"]],
+                "order": [[@role('Super Admin') 2 @else 1 @endrole, "asc"]],
                 dom: 'Bfrti',
                 buttons: [
                     'copy', 'csv', 'excel', 'print'
