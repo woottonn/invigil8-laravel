@@ -166,7 +166,7 @@
     });
     $('#duration{{$index}}').timepicker({
         timeFormat: 'HH:mm',
-        interval: 15,
+        interval: 5,
         minTime: '00:30',
         maxTime: '23:00',
         defaultTime: '{{old('duration'.$index) ?? $exam->duration ?? '01:00'}}',
@@ -181,7 +181,6 @@
 @if(@old('total'))
     @foreach(range(1,old('total')) as $index)
 
-        console.log('here');
         $next = {{$index + 1}};
         $prev = {{$index - 1}};
         $eq = {{$index - 1}};

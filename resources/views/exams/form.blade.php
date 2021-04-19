@@ -135,7 +135,7 @@
     });
     $('#duration').timepicker({
         timeFormat: 'HH:mm',
-        interval: 15,
+        interval: 5,
         minTime: '00:30',
         maxTime: '23:00',
         defaultTime: '{{old('duration') ?? $exam->duration ?? '01:00'}}',
