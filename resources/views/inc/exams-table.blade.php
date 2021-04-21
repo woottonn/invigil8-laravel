@@ -117,7 +117,6 @@
 
                                         @if(@$tableheaders['date'])
                                             <td data-sort="{{$exam->date}}">
-                                                {{$exam->invigilators_full}}
                                                 {{$exam->pretty_date_short}} - {{ $exam->pretty_time }}
                                             </td>
                                         @endif
