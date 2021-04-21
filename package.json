@@ -43,8 +43,10 @@
         "jquery-timepicker": "^1.3.3",
         "jszip": "^3.2.2",
         "moment": "^2.24.0",
+        "pdfmake": "^0.1.71",
         "select2": "^4.0.13",
         "v-calendar": "^1.0.1",
+        "vfs-font-fzlthj": "0.0.4",
         "vue-qrcode-reader": "^2.1.1"
     }
 }

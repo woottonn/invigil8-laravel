@@ -12,6 +12,9 @@ require('datatables.net-bs4');
 require('datatables.net-responsive');
 require('datatables.net-responsive-bs4');
 require('jquery-timepicker/jquery.timepicker');
+window.pdfMake = require( 'pdfmake' );
+window.pdfFonts = require('pdfmake/build/vfs_fonts');
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 import jsZip from 'jszip';
 import 'datatables.net-buttons/js/buttons.colVis.min';

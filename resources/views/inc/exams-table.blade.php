@@ -277,7 +277,7 @@
                 "order": [[@role('Super Admin') 2 @else 1 @endrole, "asc"]],
                 dom: 'Bfrti',
                 buttons: [
-                    'copy', 'csv', 'excel', 'print'
+                    'copy', 'csv', 'excel', 'pdf', 'print'
                 ],
                 responsive: true,
                 stateSave: false,
