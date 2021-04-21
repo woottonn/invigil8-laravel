@@ -33,6 +33,9 @@
                     <a class="nav-link" href="{{ route('exams.index') }}">All Exams</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{route('exams.require')}}">Unfilled Exams</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{route('exams.index', ['user_id' => Auth::user()->id])}}">My Exams</a>
                 </li>
             @endrole
@@ -43,7 +46,8 @@
                             Exams <span class="caret"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('exams.index') }}">View</a>
+                            <a class="dropdown-item" href="{{ route('exams.index') }}">All Exams</a>
+                            <a class="dropdown-item" href="{{ route('exams.require') }}">Unfilled Exams</a>
                             <a class="dropdown-item" href="{{ route('exams.create') }}">Create</a>
                             <a class="dropdown-item" href="{{ route('exams.bulk') }}">Bulk Creation</a>
                         </div>

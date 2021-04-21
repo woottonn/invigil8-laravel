@@ -97,6 +97,37 @@ class ExamsController extends Controller
         return view('exams.index', compact('exams', 'include_icon_create', 'title', 'subtitle'));
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function require(Request $request)
+    {
+
+        if(auth()->user()->cannot('EXAMS-edit')) { $state = 1; }
+
+        $exams = Exam::orderBy('date','DESC')
+            ->join('participations','exams.id','=','participations.exam_id')
+            ->when($this->sID, function ($query) {
+                return $query->where('exams.season_id', $this->sID);
+            })
+            ->when($this->cID, function ($query) {
+                return $query->where('exams.centre_id', $this->cID);
+            })
+            ->when(@$state, function ($query)  {
+                return $query->where('state', 1);
+            })
+            ->get('exams.*')
+            ->where('invigilators_full',false);
+
+        $subtitle = "A list of exams that require invigilators";
+        $include_icon_create = 1;
+        $title = "Exams That Require Invigilators";
+
+        return view('exams.index', compact('exams', 'include_icon_create', 'title', 'subtitle'));
+    }
+
     public function today(Request $request)
     {
 

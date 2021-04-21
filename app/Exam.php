@@ -146,6 +146,14 @@ class Exam extends Model
         return Participation::where('user_id', $id)->where('exam_id', $this->id)->exists();
     }
 
+    public function getInvigilatorsFullAttribute(){
+        $participation =  Participation::where('exam_id', $this->id)->count();
+        $exam_lead = $this->invigilators_lead_req;
+        $exam_req = $this->invigilators_req;
+
+        if($participation >= ($exam_lead+$exam_req)){ return true; }else{ return false; }
+    }
+
 
 
 }

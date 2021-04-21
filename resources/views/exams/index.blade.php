@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        @include('inc.titles', ['title' => 'Exams'])
+        @include('inc.titles')
         @include('inc.exams-table',
             ['tableheaders' => [
                 'date' => true,
