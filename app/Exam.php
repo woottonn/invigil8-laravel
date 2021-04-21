@@ -135,7 +135,7 @@ class Exam extends Model
 
     public function getPrettyDateShortAttribute()
     {
-        return Carbon::parse($this->date)->format('jS M Y');
+        return Carbon::parse($this->date)->format('D jS M Y');
     }
 
     public function singleUserCount($user_id){
