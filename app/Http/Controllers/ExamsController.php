@@ -118,6 +118,7 @@ class ExamsController extends Controller
             ->when(@$state, function ($query)  {
                 return $query->where('state', 1);
             })
+            ->groupBy('exams.id')
             ->get('exams.*')
             ->where('invigilators_full',false);
 
