@@ -108,7 +108,6 @@ class ExamsController extends Controller
         if(auth()->user()->cannot('EXAMS-edit')) { $state = 1; }
 
         $exams = Exam::orderBy('date','DESC')
-            ->join('participations','exams.id','=','participations.exam_id')
             ->when($this->sID, function ($query) {
                 return $query->where('exams.season_id', $this->sID);
             })
