@@ -153,7 +153,7 @@ class Exam extends Model
 
         //dd($exam_req);
 
-        //echo $this->description." - if total partitionpation(".$participation.") is  GoeT (exam lead: ".$exam_lead."  + exam_req:".$exam_req.")";
+        echo "<script>console.log('".$this->description." - if total partitionpation(".$participation.") is  GoeT (exam lead: ".$exam_lead."  + exam_req:".$exam_req.")"."');</script>";
 
         if($participation >= ($exam_lead+$exam_req)){ return true; }else{ return false; }
     }
