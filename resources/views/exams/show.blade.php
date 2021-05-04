@@ -234,7 +234,7 @@
                                 @endif
                             @else
                                 <div class="col-md-6 col-lg-4 col-xl-3">
-                                    <label>Lead Invigilator {{$index}}</label>
+                                    <label>Invigilator {{$index}}</label>
                                     <div class="@if(auth()->user()->id==$invigilators[$index-1]->user_id) invigilator_me @else invigilator_assigned @endif">
 
                                         <span title="
