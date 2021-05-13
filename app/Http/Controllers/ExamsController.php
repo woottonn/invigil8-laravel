@@ -152,11 +152,13 @@ class ExamsController extends Controller
             ->groupBy('exams.id')
             ->get('exams.*');
 
+        $date_order = "desc";
+
         $subtitle = "A list of exams in the past";
         $include_icon_create = 1;
         $title = "Old Exams";
 
-        return view('exams.index', compact('exams', 'include_icon_create', 'title', 'subtitle'));
+        return view('exams.index', compact('exams', 'include_icon_create', 'title', 'subtitle', 'date_order'));
     }
 
     public function today(Request $request)
