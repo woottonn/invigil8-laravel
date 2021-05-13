@@ -86,6 +86,7 @@ class ExamsController extends Controller
                 ->when(@$state, function ($query)  {
                     return $query->where('state', 1);
                 })
+                ->where('date', '>=', Carbon::now()->toDateString())
                 ->get();
             $subtitle = "A list of all exams for this current season.";
         }
@@ -117,6 +118,7 @@ class ExamsController extends Controller
             ->when(@$state, function ($query)  {
                 return $query->where('state', 1);
             })
+            ->where('date', '>=', Carbon::now()->toDateString())
             ->groupBy('exams.id')
             ->get('exams.*')
             ->where('invigilators_full',false);
@@ -124,6 +126,35 @@ class ExamsController extends Controller
         $subtitle = "A list of exams that require invigilators";
         $include_icon_create = 1;
         $title = "Exams That Require Invigilators";
+
+        return view('exams.index', compact('exams', 'include_icon_create', 'title', 'subtitle'));
+    }
+
+
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function old(Request $request)
+    {
+
+        $exams = Exam::orderBy('date','DESC')
+            ->when($this->sID, function ($query) {
+                return $query->where('exams.season_id', $this->sID);
+            })
+            ->when($this->cID, function ($query) {
+                return $query->where('exams.centre_id', $this->cID);
+            })
+            ->where('date', '<', Carbon::now()->toDateString())
+            ->groupBy('exams.id')
+            ->get('exams.*');
+
+        $subtitle = "A list of exams in the past";
+        $include_icon_create = 1;
+        $title = "Old Exams";
 
         return view('exams.index', compact('exams', 'include_icon_create', 'title', 'subtitle'));
     }

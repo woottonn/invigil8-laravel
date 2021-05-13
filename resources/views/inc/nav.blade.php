@@ -46,10 +46,10 @@
                             Exams <span class="caret"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('exams.index') }}">All Exams</a>
-                            <a class="dropdown-item" href="{{ route('exams.require') }}">Unfilled Exams</a>
-                            <a class="dropdown-item" href="{{ route('exams.create') }}">Create</a>
-                            <a class="dropdown-item" href="{{ route('exams.bulk') }}">Bulk Creation</a>
+                            <a class="dropdown-item" href="{{ route('exams.index') }}">Upcoming Exams</a>
+                            <a class="dropdown-item" href="{{ route('exams.require') }}">Upcoming Exams (Unfilled)</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ route('exams.old') }}">Old Exams</a>
                         </div>
                     </li>
             @endcan

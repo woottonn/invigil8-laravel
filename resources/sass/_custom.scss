@@ -875,3 +875,19 @@ input, select, email, password{
 .vc-text-gray-500{
     color: $custom-color-sec !important;
 }
+
+.dt-button-info{
+    position:fixed;
+    bottom:20px;
+    left:20px;
+    z-index:99999;
+    background:#fff;
+    border:1px solid #ccc;
+    padding:7px;
+}
+
+.dt-button-info h2 {
+    font-size:16px;
+    font-weight:bold;
+    color: $custom-color;
+}
