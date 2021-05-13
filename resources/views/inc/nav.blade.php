@@ -22,21 +22,26 @@
                 <a class="nav-link" href="/login">Dashboard</a>
             </li>
 
-            @can('EXAMS-view')
+            @can('EXAMS-create')
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('exams.today') }}">Today's Exams</a>
             </li>
             @endcan
 
             @role('Invigilator')
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('exams.index') }}">All Exams</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('exams.require')}}">Unfilled Exams</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('exams.index', ['user_id' => Auth::user()->id])}}">My Exams</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        Exams <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{route('exams.index', ['user_id' => Auth::user()->id])}}">My Exams</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ route('exams.index') }}">Upcoming Exams</a>
+                        <a class="dropdown-item" href="{{ route('exams.require') }}">Upcoming Exams (Unfilled)</a>
+                        <a class="dropdown-item" href="{{ route('exams.today') }}">Today's Exams</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ route('exams.old') }}">Old Exams</a>
+                    </div>
                 </li>
             @endrole
 
