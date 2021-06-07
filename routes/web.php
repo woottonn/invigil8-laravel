@@ -21,6 +21,8 @@ Route::get('/cookie-policy', 'PagesController@cookies')->name('cookies');
 Route::get('/exams/today', 'ExamsController@today')->name('exams.today');
 Route::get('/exams/require-invigilators', 'ExamsController@require')->name('exams.require');
 Route::get('/exams/old', 'ExamsController@old')->name('exams.old');
+Route::get('/exams/setlive', 'ExamsController@setlive')->name('exams.setlive');
+Route::get('/exams/setliveandnotify', 'ExamsController@setlive')->name('exams.setliveandnotify');
 
 //Dashboards
 Route::get('admin/dashboard', 'DashboardController@admin_index')->name('admin.dashboard')->middleware('role:Super Admin|Centre Admin');

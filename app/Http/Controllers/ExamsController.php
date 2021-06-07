@@ -357,7 +357,7 @@ class ExamsController extends Controller
             }
 
             if (@$request->email[$i] == 1) {
-                foreach (User::role('Invigilator')->where('lastname', 'Wootton')->where('centre_id', session('centre')->id)->get() as $user) {
+                foreach (User::role('Invigilator')->where('centre_id', session('centre')->id)->get() as $user) {
                     $mail = new \stdClass();
                     $mail->firstname = $user->firstname;
                     $mail->name = $exam->description;
@@ -375,6 +375,75 @@ class ExamsController extends Controller
 
         return redirect()->route('exams.index')->with('success', $request->total. ' exams created successfully');
     }
+
+
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function setliveandnotify(Request $request)
+    {
+        $request['centre_id'] = session('centre')->id;
+
+        $exams = Exam::where('state', 0)->where('centre_id', session('centre')->id)->get();
+
+        foreach($exams as $exam){
+
+            $exam->state = 1;
+            $exam->save();
+
+            addToTimeline(0, $exam->author_id, $exam->id,session('centre')->id, session('season')->id,
+                User::find($exam->author_id)->full_name . " set the following exam live: <a href='" . url('/') . "/exams/" . $exam->id . "'>" . $exam->description . "</a>");
+
+            foreach (User::role('Invigilator')->where('centre_id', session('centre')->id)->get() as $user) {
+                $mail = new \stdClass();
+                $mail->firstname = $user->firstname;
+                $mail->name = $exam->description;
+                $mail->id = $exam->id;
+                $mail->date = $exam->pretty_date;
+                $mail->duration = $exam->pretty_duration;
+                $mail->location = $exam->location->name;
+                $mail->centre_name = Centre::find($exam->centre_id)->name;
+                $mail->lead = $exam->invigilators_lead_req;
+                $mail->extra = $exam->invigilators_req;
+                Mail::to($user->email)->send(new DefaultEmail($mail));
+            }
+        }
+
+        return redirect()->route('exams.index')->with('success', 'All exams set to live &amp; invigilators have been emailed');
+    }
+
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function setlive(Request $request)
+    {
+
+        $exams = Exam::where('state', 0)->where('centre_id', session('centre')->id)->get();
+
+        foreach($exams as $exam){
+
+            $exam->state = 1;
+            $exam->save();
+
+            addToTimeline(0, $exam->author_id, $exam->id,session('centre')->id, session('season')->id,
+                User::find($exam->author_id)->full_name . " set the following exam live: <a href='" . url('/') . "/exams/" . $exam->id . "'>" . $exam->description . "</a>");
+
+        }
+
+        return redirect()->route('exams.index')->with('success', 'All exams set to live');
+    }
+
+
 
 
 

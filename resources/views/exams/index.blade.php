@@ -27,6 +27,7 @@
              ],
              'config' => [
                  'date_range' => true,
+                 'admin_options' => true,
             ]
         ])
     </div>

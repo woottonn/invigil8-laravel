@@ -23,13 +23,24 @@
                         @endif
                     </div>
                     @can('EXAMS-create')
+                        <div class="col-md-6 d-none d-sm-none d-md-none d-md-block d-lg-block d-xl-block">
                         @if(@$headers['create'])
-                            <div class="col-md-6 d-none d-sm-none d-md-none d-md-block d-lg-block d-xl-block">
-                                    <a href="{{ route('exams.create') }}">
-                                        <button class="btn btn-primary float-right">Create Exam</button>
-                                    </a>
+                            <a href="{{ route('exams.create') }}">
+                                <button class="btn btn-primary float-right">Create Exam</button>
+                            </a>
+                        @endif
+                        @if(@$config['admin_options'])
+                            <div class="dropdown show float-right mr-1">
+                                <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Options
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="{{ route('exams.setlive') }}">Make exams live</a>
+                                    <a class="dropdown-item" href="{{ route('exams.setliveandnotify') }}">Make exams live &amp; notify</a>
+                                </div>
                             </div>
                         @endif
+                        </div>
                     @endcan
                 </div>
                 @if(@$config['date_range'])
@@ -215,12 +226,12 @@
                                             <td class="text-center">
                                                 @can('EXAMS-edit')
                                                     <div class="d-inline-block" style="width:115px">
-                                                        <a href="{{ route('exams.show', [$exam]) }}" title="View exam &amp invigilators" data-toggle="tooltip" data-placement="bottom" rel="tooltip">
-                                                            <button class="btn btn-sm btn-success bg-primary text-white" style="width:33px"><i class="fas fa-eye"></i></button>
+                                                        <a href="{{ route('exams.show', [$exam]) }}">
+                                                            <button class="btn btn-sm btn-success bg-primary text-white" title="View exam &amp invigilators" data-toggle="tooltip" data-placement="bottom" rel="tooltip" style="width:33px"><i class="fas fa-eye"></i></button>
                                                         </a>
 
-                                                        <a href="{{ route('exams.edit', [$exam]) }}" title="Edit" data-toggle="tooltip" data-placement="bottom" rel="tooltip">
-                                                            <button class="btn btn-sm btn-success bg text-white" style="width:33px"><i class="fas fa-edit"></i></button>
+                                                        <a href="{{ route('exams.edit', [$exam]) }}">
+                                                            <button class="btn btn-sm btn-success bg text-white"  title="Edit" data-toggle="tooltip" data-placement="bottom" rel="tooltip" style="width:33px"><i class="fas fa-edit"></i></button>
                                                         </a>
                                                         @can('EXAMS-edit')
                                                             <form action="{{ route('exams.destroy', [$exam]) }}" method="POST" class="no-form-style d-none" id="delete-form-{{ $exam->id }}">
